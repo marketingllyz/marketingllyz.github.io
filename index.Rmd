@@ -1,0 +1,10 @@
+---
+title: "My awesome website"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cerulean
+---
+
+# Swipe or Click: Unraveling the Spending Tug-of-War

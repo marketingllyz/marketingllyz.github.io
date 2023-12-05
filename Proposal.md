@@ -1,4 +1,4 @@
-p8105_fianl_proposal
+p8105_final_proposal
 ================
 Xuer.Liu, Hingling.Yu, Xinyi.Zheng, Ying.Li
 2023-11-11

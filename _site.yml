@@ -1,0 +1,12 @@
+name: "Yay internet!"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "Proposal"
+      href: Proposal.html
+    - icon: fa-github fa-lg
+      href: https://github.com/marketingllyz/marketingllyz.github.io
+output:
+  html_document:
+    theme: cosmo

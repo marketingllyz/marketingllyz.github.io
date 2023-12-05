@@ -1,8 +1,11 @@
 ---
-title: "p8105_fianl_proposal"
-author: "Xuer.Liu, Hingling.Yu, Xinyi.Zheng, Ying.Li"
-date: "2023-11-11"
-output: github_document
+title: "Plan"
+
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cosmo
 ---
 
 ## Group members (names and uni)
