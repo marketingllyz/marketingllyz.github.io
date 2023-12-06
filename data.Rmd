@@ -1,5 +1,5 @@
 ---
-title: "data"
+title: "Data Description"
 
 output: 
   html_document:
@@ -7,3 +7,57 @@ output:
     toc_float: true
     theme: cosmo
 ---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data cleaning
+
+* Add amount of wines, fruits, meat ... into total amount spend
+
+* Create a prefer web or store option: number of web > store, prefer "web", vice versa
+
+* add total of accepted compaigns
+
+* Age: be customer date minus year birth
+
+* Marital_Status in  ("Absurd", "Alone","YOLO","Widow") merged into "Other"
+
+* Remove missing values in Income
+
+* final data has variables  "Education"  "Marital_Status"  "Income"   "Kidhome" "Teenhome"  "Recency"  "WebVisits"   "Complain"      "Total_amount"   "Prefer_web_or_store" "Accept_camps"  "Age", other variables omitted
+
+* final data has 2216 obs with 12 variables
+
+```{r}
+library(readr)
+library(tidyverse)
+
+data <- read_csv("marketing_campaign.csv")
+
+data <- data %>%  select(-ID, -Z_CostContact,  -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases)
+
+data <- data %>%
+  mutate(Total_amount = MntWines +  MntFruits +  MntMeatProducts +   MntFishProducts +
+           MntSweetProducts +  MntGoldProds,
+         Prefer_web_or_store = ifelse(NumStorePurchases > NumWebPurchases, "store", "web"),
+         Accept_camps  =  AcceptedCmp1 +  AcceptedCmp2 +  AcceptedCmp3 +  AcceptedCmp4 +
+           AcceptedCmp5 + Response,
+         Age  = as.numeric(substr(Dt_Customer,7,10)) - Year_Birth,
+         ) %>% rename("WebVisits" = "NumWebVisitsMonth")
+  
+
+data <- data %>% select(-MntWines, -MntFruits, -MntMeatProducts, 
+                        -MntFishProducts, -MntSweetProducts, -MntGoldProds,
+                        -AcceptedCmp1,-AcceptedCmp2,-AcceptedCmp3,
+                        -AcceptedCmp4,-AcceptedCmp5 ,-Response,
+                        -Year_Birth, -Dt_Customer,
+                        -NumWebPurchases, -NumStorePurchases) %>% drop_na()
+
+data$Marital_Status[data$Marital_Status %in% c("Absurd", "Alone","YOLO","Widow")] =  "Other"
+   
+
+```

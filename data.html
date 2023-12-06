@@ -11,7 +11,7 @@
 
 
 
-<title>data</title>
+<title>Data Description</title>
 
 <script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -320,11 +320,52 @@ div.tocify {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
+        <li>
+  <a href="report.html">Report</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="Proposal.html">Proposal</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    About
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="About.html">This Project</a>
+    </li>
+    <li>
+      <a href="Us.html">Us</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Data.html">Data Description</a>
+    </li>
+    <li>
+      <a href="EDA.html">EDA</a>
+    </li>
+    <li>
+      <a href="regression.html">Regression</a>
+    </li>
+    <li>
+      <a href="results.html">Results</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="mailto:&lt;ay2600@cumc.columbia.edu&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
 </li>
 <li>
   <a href="https://github.com/marketingllyz/marketingllyz.github.io">
@@ -341,12 +382,70 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">data</h1>
+<h1 class="title toc-ignore">Data Description</h1>
 
 </div>
 
 
+<div id="data-cleaning" class="section level1">
+<h1>Data cleaning</h1>
+<ul>
+<li><p>Add amount of wines, fruits, meat … into total amount
+spend</p></li>
+<li><p>Create a prefer web or store option: number of web &gt; store,
+prefer “web”, vice versa</p></li>
+<li><p>add total of accepted compaigns</p></li>
+<li><p>Age: be customer date minus year birth</p></li>
+<li><p>Marital_Status in (“Absurd”, “Alone”,“YOLO”,“Widow”) merged into
+“Other”</p></li>
+<li><p>Remove missing values in Income</p></li>
+<li><p>final data has variables “Education” “Marital_Status” “Income”
+“Kidhome” “Teenhome” “Recency” “WebVisits” “Complain” “Total_amount”
+“Prefer_web_or_store” “Accept_camps” “Age”, other variables
+omitted</p></li>
+<li><p>final data has 2216 obs with 12 variables</p></li>
+</ul>
+<pre class="r"><code>library(readr)
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.3     ✔ purrr     1.0.2
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>data &lt;- read_csv(&quot;marketing_campaign.csv&quot;)</code></pre>
+<pre><code>## Rows: 2240 Columns: 29
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (3): Education, Marital_Status, Dt_Customer
+## dbl (26): ID, Year_Birth, Income, Kidhome, Teenhome, Recency, MntWines, MntF...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>data &lt;- data %&gt;%  select(-ID, -Z_CostContact,  -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases)
 
+data &lt;- data %&gt;%
+  mutate(Total_amount = MntWines +  MntFruits +  MntMeatProducts +   MntFishProducts +
+           MntSweetProducts +  MntGoldProds,
+         Prefer_web_or_store = ifelse(NumStorePurchases &gt; NumWebPurchases, &quot;store&quot;, &quot;web&quot;),
+         Accept_camps  =  AcceptedCmp1 +  AcceptedCmp2 +  AcceptedCmp3 +  AcceptedCmp4 +
+           AcceptedCmp5 + Response,
+         Age  = as.numeric(substr(Dt_Customer,7,10)) - Year_Birth,
+         ) %&gt;% rename(&quot;WebVisits&quot; = &quot;NumWebVisitsMonth&quot;)
+  
+
+data &lt;- data %&gt;% select(-MntWines, -MntFruits, -MntMeatProducts, 
+                        -MntFishProducts, -MntSweetProducts, -MntGoldProds,
+                        -AcceptedCmp1,-AcceptedCmp2,-AcceptedCmp3,
+                        -AcceptedCmp4,-AcceptedCmp5 ,-Response,
+                        -Year_Birth, -Dt_Customer,
+                        -NumWebPurchases, -NumStorePurchases) %&gt;% drop_na()
+
+data$Marital_Status[data$Marital_Status %in% c(&quot;Absurd&quot;, &quot;Alone&quot;,&quot;YOLO&quot;,&quot;Widow&quot;)] =  &quot;Other&quot;</code></pre>
+</div>
 
 
 
