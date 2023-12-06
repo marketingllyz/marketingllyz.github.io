@@ -1,0 +1,13 @@
+---
+html_document:
+  toc: yes
+  toc_float: yes
+title: "<center> Key Findings and Takeaways"
+---
+
+
+### Key Takeaways:
+
+* Customers who prefer stores shopping customers would spend less compared with who prefer web shopping online.
+
+### Potential Future Analysis:
