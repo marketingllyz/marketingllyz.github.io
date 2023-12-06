@@ -1,0 +1,33 @@
+---
+title: <center> Our Team
+output: html_document
+---
+
+```{r include=FALSE}
+library(magick)
+library(cropcircles)
+```
+
+
+<br></br>
+
+
+
+<br></br>
+
+
+
+<br></br>
+
+
+
+<br></br>
+
+
+
+<br></br>
+
+
+
+
+
