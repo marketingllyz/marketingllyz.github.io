@@ -15,7 +15,7 @@ navbar:
     - text: "Analysis"
       menu: 
       - text: "Data Description"
-        href: Data.html
+        href: data.html
       - text: "EDA"
         href: EDA.html        
       - text: "Regression"
