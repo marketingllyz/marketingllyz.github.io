@@ -6,6 +6,15 @@ output:
     toc_float: true
     theme: cosmo
 ---
+<style type="text/css">
+
+h1.title {
+  text-align: center;
+}
+
+</style>
+
+&nbsp;
 
 Introduction:
 
