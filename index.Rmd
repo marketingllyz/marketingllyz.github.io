@@ -16,10 +16,10 @@ h1.title {
 
 &nbsp;
 
-Introduction:
+# Introduction:
 
 
-Explotory Data Analysis:
+# Explotory Data Analysis:
 
 * [EDA](EDA.html)
 
