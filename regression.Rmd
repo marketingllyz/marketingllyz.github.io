@@ -1,0 +1,113 @@
+---
+title: "Analysis"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: "hide"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
+```
+
+
+
+```{r}
+library(readr)
+library(tidyverse)
+
+data <- read_csv("marketing_campaign.csv")
+
+data <- data %>%  select(-ID, -Z_CostContact,  -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases)
+
+data <- data %>%
+  mutate(Total_amount = MntWines +  MntFruits +  MntMeatProducts +   MntFishProducts +
+           MntSweetProducts +  MntGoldProds,
+         Prefer_web_or_store = ifelse(NumStorePurchases > NumWebPurchases, "store", "web"),
+         Accept_camps  =  AcceptedCmp1 +  AcceptedCmp2 +  AcceptedCmp3 +  AcceptedCmp4 +
+           AcceptedCmp5 + Response,
+         Age  = as.numeric(substr(Dt_Customer,7,10)) - Year_Birth,
+         ) %>% rename("WebVisits" = "NumWebVisitsMonth")
+  
+
+data <- data %>% select(-MntWines, -MntFruits, -MntMeatProducts, 
+                        -MntFishProducts, -MntSweetProducts, -MntGoldProds,
+                        -AcceptedCmp1,-AcceptedCmp2,-AcceptedCmp3,
+                        -AcceptedCmp4,-AcceptedCmp5 ,-Response,
+                        -Year_Birth, -Dt_Customer,
+                        -NumWebPurchases, -NumStorePurchases) %>% drop_na()
+
+data$Marital_Status[data$Marital_Status %in% c("Absurd", "Alone","YOLO","Widow")] =  "Other"
+   
+
+```
+
+
+# Models
+
+## Propensity score matching model
+
+* useful for observational data
+
+* balance is better after matching than before 
+
+* after Propensity score matching model using linear regression model
+
+```{r,results="asis"}
+library(Matching)
+# Estimate the propensity model
+data2 <- data
+data2$Prefer_web_or_store <- ifelse(data2$Prefer_web_or_store == "web",0,1)
+#Propensity score matching
+glm1  <- glm(Prefer_web_or_store ~ Education + Marital_Status+ Income+ Kidhome +Teenhome+ Recency +
+               WebVisits + Complain +  Accept_camps  +   Age, family=binomial, data=data2)
+
+library(gtsummary)
+
+gtsummary::tbl_regression(glm1)
+
+#stargazer::stargazer(glm1, header = FALSE, no.space = TRUE, title = "Propensity model")
+
+X  <- glm1$fitted
+Y  <- data2$Total_amount
+Tr  <- data2$Prefer_web_or_store
+
+# one-to-one matching with replacement (the "M=1" option)
+rr  <- Match(Y=Y, Tr=Tr, X=X, M=1)
+
+#covariate balance
+#balance is better after matching than before 
+#mb  <- MatchBalance(Prefer_web_or_store ~ Education + Marital_Status+ Income+ Kidhome +Teenhome+ Recency +
+#               WebVisits + Complain +  Accept_camps  +   Age,data=data2 ,match.out=rr, nboots=10)
+
+```
+
+
+## Linear regression model
+
+Hypotheses:
+
+$$H_0: \mu_{store} \ge \mu_{web}~~ vs. ~~H_1: \mu_{store} <  \mu_{web}$$
+
+Based on table 3, after controlling other important covariates, reject H0 due to p value < 0.05, so conclude there is significant edivence showing  customers who  prefer stores shopping customers would spend less compared with who prefer web shopping online.
+
+
+```{r,results="asis"}
+data3 <- data2[c(rr$index.treated, rr$index.control), ]
+
+model <- lm(Total_amount ~ ., data = data3)
+
+gtsummary::tbl_regression(model )
+
+#stargazer::stargazer(model, header = FALSE, type = "html", no.space = TRUE, title = "Regression summary")
+
+```
+
+
+
+
+
+
+
+
