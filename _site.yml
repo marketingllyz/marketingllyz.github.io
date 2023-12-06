@@ -2,11 +2,30 @@ name: "Yay internet!"
 output_dir: "."
 navbar:
   title: "Home"
+  left: 
+    - text: "Report"
+      href: report.html
   right:
-    - text: "Proposal"
-      href: Proposal.html
+    - text: "About"
+      menu:
+      - text: "This Project"
+        href: About.html
+      - text: "Us"
+        href: Us.html
+    - text: "Analysis"
+      menu: 
+      - text: "Data Description"
+        href: Data.html
+      - text: "EDA"
+        href: EDA.html        
+      - text: "Regression"
+        href: regression.html
+      - text: "Results"
+        href: results.html
+    - icon: fa-envelope fa-lg
+      href: mailto:<ay2600@cumc.columbia.edu>
     - icon: fa-github fa-lg
       href: https://github.com/marketingllyz/marketingllyz.github.io
 output:
   html_document:
-    theme: cosmo
+    theme: journal
