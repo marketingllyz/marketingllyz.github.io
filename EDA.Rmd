@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
 library(readr)
 library(tidyverse)
 
-data <- read_csv("marketing_campaign copy.csv")
+data <- read_csv("marketing_campaign.csv")
 
 data <- data %>%  select(-ID, -Z_CostContact,  -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases)
 
