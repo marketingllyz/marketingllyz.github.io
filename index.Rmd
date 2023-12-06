@@ -7,5 +7,12 @@ output:
     theme: cosmo
 ---
 
+Introduction:
 
+
+Explotory Data Analysis
 * [EDA](EDA.html)
+
+![some images](image/1.png)
+![some images](image/2.jpg)
+![some images](image/3.jpg)
