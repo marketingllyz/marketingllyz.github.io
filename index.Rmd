@@ -10,9 +10,12 @@ output:
 Introduction:
 
 
-Explotory Data Analysis
+Explotory Data Analysis:
+
 * [EDA](EDA.html)
 
-![some images](image/1.png)
-![some images](image/2.jpg)
-![some images](image/3.jpg)
+![shopping cart](image/1.png)
+
+![closed shops](image/2.jpg)
+
+![people who can just order food](image/3.jpg)
