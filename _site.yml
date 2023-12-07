@@ -20,8 +20,6 @@ navbar:
         href: regression.html
       - text: "Results"
         href: results.html
-    - icon: fa-envelope fa-lg
-      href: mailto:<ay2600@cumc.columbia.edu>
     - icon: fa-github fa-lg
       href: https://github.com/marketingllyz/marketingllyz.github.io
 output:
