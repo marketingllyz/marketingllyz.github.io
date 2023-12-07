@@ -22,12 +22,9 @@ body {
 
 &nbsp;
 
-# Introduction:
 
 
-# Explotory Data Analysis:
 
-* [EDA](EDA.html)
 
 ![shopping cart](image/1.png)
 
