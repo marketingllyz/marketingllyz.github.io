@@ -335,9 +335,6 @@ div.tocify {
     <li>
       <a href="About.html">This Project</a>
     </li>
-    <li>
-      <a href="Us.html">Us</a>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -410,19 +407,19 @@ omitted</p></li>
 <pre class="r"><code># Load libraries
 library(readr)
 library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+<pre><code>## ── Attaching core tidyverse packages ────────────────
 ## ✔ dplyr     1.1.3     ✔ purrr     1.0.2
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
 ## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
 ## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ─────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <pre class="r"><code># Read in data
 data = read_csv(&quot;marketing_campaign.csv&quot;)</code></pre>
 <pre><code>## Rows: 2240 Columns: 29
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ─────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr  (3): Education, Marital_Status, Dt_Customer
 ## dbl (26): ID, Year_Birth, Income, Kidhome, Teenhome, Recency, MntWines, MntF...
