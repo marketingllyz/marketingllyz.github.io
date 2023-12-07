@@ -20,17 +20,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 * Create a prefer web or store option: number of web > store, prefer "web", vice versa
 
-* add total of accepted compaigns
+* Add total of accepted compaigns
 
-* Age: be customer date minus year birth
+* `Age`: be customer date minus year birth
 
-* Marital_Status in  ("Absurd", "Alone","YOLO","Widow") merged into "Other"
+* `Marital_Status` in  ("Absurd", "Alone","YOLO","Widow") merged into "Other"
 
-* Remove missing values in Income
+* Remove missing values in `Income`
 
-* final data has variables  "Education"  "Marital_Status"  "Income"   "Kidhome" "Teenhome"  "Recency"  "WebVisits"   "Complain"      "Total_amount"   "Prefer_web_or_store" "Accept_camps"  "Age", other variables omitted
+* Final data has variables  `Education``Marital_Status` `Income`   `Kidhome` `Teenhome`  `Recency`  `WebVisits`   `Complain`      `Total_amount`   `Prefer_web_or_store` `Accept_camps`  `Age`, other variables omitted
 
-* final data has 2216 obs with 12 variables
+* Final data has 2216 observations with 12 variables
 
 ```{r}
 # Load libraries
