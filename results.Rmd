@@ -1,8 +1,10 @@
 ---
-html_document:
-  toc: yes
-  toc_float: yes
 title: "<center> Key Findings and Takeaways"
+
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 
