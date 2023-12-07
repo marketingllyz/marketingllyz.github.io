@@ -35,19 +35,19 @@ library(tidyverse)
 
 data <- read_csv("marketing_campaign.csv")
 
-data <- data %>%  select(-ID, -Z_CostContact,  -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases)
+data <- data %>%  dplyr::select(-ID, -Z_CostContact,  -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases)
 
 data <- data %>%
-  mutate(Total_amount = MntWines +  MntFruits +  MntMeatProducts +   MntFishProducts +
-           MntSweetProducts +  MntGoldProds,
+  mutate(Total_amount = MntWines +  MntFruits + MntMeatProducts +  MntFishProducts +
+           MntSweetProducts + MntGoldProds,
          Prefer_web_or_store = ifelse(NumStorePurchases > NumWebPurchases, "store", "web"),
-         Accept_camps  =  AcceptedCmp1 +  AcceptedCmp2 +  AcceptedCmp3 +  AcceptedCmp4 +
+         Accept_camps = AcceptedCmp1 +  AcceptedCmp2 +  AcceptedCmp3 +  AcceptedCmp4 +
            AcceptedCmp5 + Response,
-         Age  = as.numeric(substr(Dt_Customer,7,10)) - Year_Birth,
+         Age = as.numeric(substr(Dt_Customer,7,10)) - Year_Birth,
          ) %>% rename("WebVisits" = "NumWebVisitsMonth")
   
 
-data <- data %>% select(-MntWines, -MntFruits, -MntMeatProducts, 
+data <- data %>% dplyr::select(-MntWines, -MntFruits, -MntMeatProducts, 
                         -MntFishProducts, -MntSweetProducts, -MntGoldProds,
                         -AcceptedCmp1,-AcceptedCmp2,-AcceptedCmp3,
                         -AcceptedCmp4,-AcceptedCmp5 ,-Response,
@@ -77,9 +77,7 @@ data  %>%
   add_n() %>%
   modify_header(label ~ "**Variable**") %>%
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Prefer web or store**") %>%
-  modify_footnote(
-    all_stat_cols() ~ "Median (IQR) or Frequency (%)"
-  ) %>%
+  modify_footnote(all_stat_cols() ~ "Median (IQR) or Frequency (%)") %>%
   modify_caption("**Data descriptive statistics**") %>%
   bold_labels()
 ```
@@ -97,8 +95,11 @@ data  %>%
 library(ggplot2)
 library(ggthemes)
 library(scales)
-d <- data %>% group_by(Prefer_web_or_store,Education ) %>% count() %>%
-  group_by(Education  ) %>% mutate(pct= n/sum(n))
+d <- data %>% 
+  group_by(Prefer_web_or_store,Education ) %>% 
+  count() %>%
+  group_by(Education  ) %>% 
+  mutate(pct= n/sum(n))
 g1 <- ggplot(d, aes(Education  , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
@@ -108,8 +109,11 @@ g1 <- ggplot(d, aes(Education  , pct, fill =  Prefer_web_or_store)) +
        y = "Percentage",
        fill = "Prefer web or store")
 
-d <- data %>% group_by(Prefer_web_or_store,Marital_Status ) %>% count() %>%
-  group_by(Marital_Status) %>% mutate(pct= n/sum(n))
+d <- data %>% 
+  group_by(Prefer_web_or_store,Marital_Status ) %>% 
+  count() %>%
+  group_by(Marital_Status) %>% 
+  mutate(pct= n/sum(n))
 g2 <- ggplot(d, aes(Marital_Status , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
@@ -119,8 +123,11 @@ g2 <- ggplot(d, aes(Marital_Status , pct, fill =  Prefer_web_or_store)) +
        y = "Percentage",
        fill = "Prefer web or store")
 
-d <- data %>% group_by(Prefer_web_or_store,Kidhome ) %>% count() %>%
-  group_by(Kidhome) %>% mutate(pct= n/sum(n))
+d <- data %>% 
+  group_by(Prefer_web_or_store,Kidhome ) %>% 
+  count() %>%
+  group_by(Kidhome) %>% 
+  mutate(pct= n/sum(n))
 g3 <- ggplot(d, aes(factor(Kidhome) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
@@ -130,8 +137,11 @@ g3 <- ggplot(d, aes(factor(Kidhome) , pct, fill =  Prefer_web_or_store)) +
        y = "Percentage",
        fill = "Prefer web or store")
 
-d <- data %>% group_by(Prefer_web_or_store,Teenhome ) %>% count() %>%
-  group_by(Teenhome) %>% mutate(pct= n/sum(n))
+d <- data %>% 
+  group_by(Prefer_web_or_store,Teenhome ) %>% 
+  count() %>%
+  group_by(Teenhome) %>% 
+  mutate(pct= n/sum(n))
 g4 <- ggplot(d, aes(factor(Teenhome) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
@@ -141,8 +151,11 @@ g4 <- ggplot(d, aes(factor(Teenhome) , pct, fill =  Prefer_web_or_store)) +
        y = "Percentage",
        fill = "Prefer web or store")
 
-d <- data %>% group_by(Prefer_web_or_store,Complain ) %>% count() %>%
-  group_by(Complain ) %>% mutate(pct= n/sum(n))
+d <- data %>% 
+  group_by(Prefer_web_or_store,Complain ) %>% 
+  count() %>%
+  group_by(Complain ) %>% 
+  mutate(pct= n/sum(n))
 g5 <- ggplot(d, aes(factor(Complain ) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
@@ -152,8 +165,11 @@ g5 <- ggplot(d, aes(factor(Complain ) , pct, fill =  Prefer_web_or_store)) +
        y = "Percentage",
        fill = "Prefer web or store")
 
-d <- data %>% group_by(Prefer_web_or_store,Accept_camps ) %>% count() %>%
-  group_by(Accept_camps ) %>% mutate(pct= n/sum(n))
+d <- data %>% 
+  group_by(Prefer_web_or_store,Accept_camps ) %>% 
+  count() %>%
+  group_by(Accept_camps ) %>% 
+  mutate(pct= n/sum(n))
 g6 <- ggplot(d, aes(factor(Accept_camps ) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
@@ -177,22 +193,30 @@ plotly::ggplotly( g1)
 ```
 
 ```{r, fig.height=6.8, fig.width=7.8}
-g2 <- ggplot(data, aes(Income)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-    labs(title="", 
+g2 <- ggplot(data, aes(Income)) +  
+  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+  labs(title="", 
          x="Yearly Income",
          fill="Prefer web or store")+ theme_economist()
-g3 <- ggplot(data, aes(Recency)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-    labs(title="", 
+
+g3 <- ggplot(data, aes(Recency)) +  
+  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+  labs(title="", 
          x="Recency",
          fill="Prefer web or store")+theme_economist()
-g4 <- ggplot(data, aes(WebVisits)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-    labs(title="", 
+
+g4 <- ggplot(data, aes(WebVisits)) +  
+  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+  labs(title="", 
          x="Web visits monthly",
          fill="Prefer web or store")+theme_economist()
-g5 <- ggplot(data, aes(Age)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-    labs(title="", 
+
+g5 <- ggplot(data, aes(Age)) + 
+  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+  labs(title="", 
          x="Age",
          fill="Prefer web or store")+theme_economist()
+
 plot_grid(g5,g2,g4,g3,nrow = 2)
 ```
 
@@ -211,9 +235,9 @@ library(Matching)
 # Estimate the propensity model
 data2 <- data
 data2$Prefer_web_or_store <- ifelse(data2$Prefer_web_or_store == "web",0,1)
+
 #Propensity score matching
-glm1  <- glm(Prefer_web_or_store ~ Education + Marital_Status+ Income+ Kidhome +Teenhome+ Recency +
-               WebVisits + Complain +  Accept_camps  +   Age, family=binomial, data=data2)
+glm1  <- glm(Prefer_web_or_store ~ Education + Marital_Status+ Income+ Kidhome +Teenhome+ Recency + WebVisits + Complain + Accept_camps + Age, family=binomial, data=data2)
 
 library(gtsummary)
 
