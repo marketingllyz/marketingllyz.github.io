@@ -13,3 +13,5 @@ output:
 * Customers who prefer stores shopping customers would spend less compared with who prefer web shopping online.
 
 ### Potential Future Analysis:
+
+* 

@@ -19,7 +19,7 @@ library(tidyverse)
 
 data <- read_csv("marketing_campaign.csv")
 
-data <- data %>%  select(-ID, -Z_CostContact,  -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases)
+data <- data %>%  dplyr::select(-ID, -Z_CostContact,  -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases)
 
 data <- data %>%
   mutate(Total_amount = MntWines +  MntFruits +  MntMeatProducts +   MntFishProducts +
