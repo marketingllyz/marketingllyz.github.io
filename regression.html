@@ -409,14 +409,17 @@ data &lt;- data %&gt;% select(-MntWines, -MntFruits, -MntMeatProducts,
 data$Marital_Status[data$Marital_Status %in% c(&quot;Absurd&quot;, &quot;Alone&quot;,&quot;YOLO&quot;,&quot;Widow&quot;)] =  &quot;Other&quot;</code></pre>
 <div id="models" class="section level1">
 <h1>Models</h1>
-<div id="propensity-score-matching-model" class="section level2">
-<h2>Propensity score matching model</h2>
-<ul>
-<li><p>useful for observational data</p></li>
-<li><p>balance is better after matching than before</p></li>
-<li><p>after Propensity score matching model using linear regression
-model</p></li>
-</ul>
+<div id="propensity-score-matching" class="section level2">
+<h2>Propensity score matching</h2>
+<p>Propensity score matching is intended to help us find treatment and
+control groups, so that we could make causal inference on observational
+dataset. Propensity score matching is a valuable technique for analyzing
+observational data. It significantly improves balance in the data by
+ensuring that matched groups are more comparable. This improved balance
+is evident when comparing the state of the data before and after
+matching. Once propensity score matching has been applied, the data can
+be further analyzed using a linear regression model, allowing for more
+accurate and reliable insights.</p>
 <pre class="r"><code>library(Matching)
 # Estimate the propensity model
 data2 &lt;- data
@@ -428,23 +431,23 @@ glm1  &lt;- glm(Prefer_web_or_store ~ Education + Marital_Status+ Income+ Kidhom
 library(gtsummary)
 
 gtsummary::tbl_regression(glm1)</code></pre>
-<div id="sdvhgdzeff" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#sdvhgdzeff table {
+<div id="ggqcakvqok" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ggqcakvqok table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#sdvhgdzeff thead, #sdvhgdzeff tbody, #sdvhgdzeff tfoot, #sdvhgdzeff tr, #sdvhgdzeff td, #sdvhgdzeff th {
+#ggqcakvqok thead, #ggqcakvqok tbody, #ggqcakvqok tfoot, #ggqcakvqok tr, #ggqcakvqok td, #ggqcakvqok th {
   border-style: none;
 }
 
-#sdvhgdzeff p {
+#ggqcakvqok p {
   margin: 0;
   padding: 0;
 }
 
-#sdvhgdzeff .gt_table {
+#ggqcakvqok .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -470,12 +473,12 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#sdvhgdzeff .gt_caption {
+#ggqcakvqok .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#sdvhgdzeff .gt_title {
+#ggqcakvqok .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -487,7 +490,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-bottom-width: 0;
 }
 
-#sdvhgdzeff .gt_subtitle {
+#ggqcakvqok .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -499,7 +502,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-top-width: 0;
 }
 
-#sdvhgdzeff .gt_heading {
+#ggqcakvqok .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -511,13 +514,13 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#sdvhgdzeff .gt_bottom_border {
+#ggqcakvqok .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sdvhgdzeff .gt_col_headings {
+#ggqcakvqok .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -532,7 +535,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#sdvhgdzeff .gt_col_heading {
+#ggqcakvqok .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -552,7 +555,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   overflow-x: hidden;
 }
 
-#sdvhgdzeff .gt_column_spanner_outer {
+#ggqcakvqok .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -564,15 +567,15 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 4px;
 }
 
-#sdvhgdzeff .gt_column_spanner_outer:first-child {
+#ggqcakvqok .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sdvhgdzeff .gt_column_spanner_outer:last-child {
+#ggqcakvqok .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sdvhgdzeff .gt_column_spanner {
+#ggqcakvqok .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -584,11 +587,11 @@ gtsummary::tbl_regression(glm1)</code></pre>
   width: 100%;
 }
 
-#sdvhgdzeff .gt_spanner_row {
+#ggqcakvqok .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#sdvhgdzeff .gt_group_heading {
+#ggqcakvqok .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -614,7 +617,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   text-align: left;
 }
 
-#sdvhgdzeff .gt_empty_group_heading {
+#ggqcakvqok .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -629,15 +632,15 @@ gtsummary::tbl_regression(glm1)</code></pre>
   vertical-align: middle;
 }
 
-#sdvhgdzeff .gt_from_md > :first-child {
+#ggqcakvqok .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sdvhgdzeff .gt_from_md > :last-child {
+#ggqcakvqok .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sdvhgdzeff .gt_row {
+#ggqcakvqok .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -656,7 +659,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   overflow-x: hidden;
 }
 
-#sdvhgdzeff .gt_stub {
+#ggqcakvqok .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -669,7 +672,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 5px;
 }
 
-#sdvhgdzeff .gt_stub_row_group {
+#ggqcakvqok .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -683,15 +686,15 @@ gtsummary::tbl_regression(glm1)</code></pre>
   vertical-align: top;
 }
 
-#sdvhgdzeff .gt_row_group_first td {
+#ggqcakvqok .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#sdvhgdzeff .gt_row_group_first th {
+#ggqcakvqok .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#sdvhgdzeff .gt_summary_row {
+#ggqcakvqok .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -701,16 +704,16 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 5px;
 }
 
-#sdvhgdzeff .gt_first_summary_row {
+#ggqcakvqok .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#sdvhgdzeff .gt_first_summary_row.thick {
+#ggqcakvqok .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#sdvhgdzeff .gt_last_summary_row {
+#ggqcakvqok .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -720,7 +723,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#sdvhgdzeff .gt_grand_summary_row {
+#ggqcakvqok .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -730,7 +733,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 5px;
 }
 
-#sdvhgdzeff .gt_first_grand_summary_row {
+#ggqcakvqok .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -740,7 +743,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#sdvhgdzeff .gt_last_grand_summary_row_top {
+#ggqcakvqok .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -750,11 +753,11 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#sdvhgdzeff .gt_striped {
+#ggqcakvqok .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sdvhgdzeff .gt_table_body {
+#ggqcakvqok .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -763,7 +766,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#sdvhgdzeff .gt_footnotes {
+#ggqcakvqok .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -777,7 +780,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#sdvhgdzeff .gt_footnote {
+#ggqcakvqok .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -786,7 +789,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 5px;
 }
 
-#sdvhgdzeff .gt_sourcenotes {
+#ggqcakvqok .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -800,7 +803,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#sdvhgdzeff .gt_sourcenote {
+#ggqcakvqok .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -808,63 +811,63 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 5px;
 }
 
-#sdvhgdzeff .gt_left {
+#ggqcakvqok .gt_left {
   text-align: left;
 }
 
-#sdvhgdzeff .gt_center {
+#ggqcakvqok .gt_center {
   text-align: center;
 }
 
-#sdvhgdzeff .gt_right {
+#ggqcakvqok .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sdvhgdzeff .gt_font_normal {
+#ggqcakvqok .gt_font_normal {
   font-weight: normal;
 }
 
-#sdvhgdzeff .gt_font_bold {
+#ggqcakvqok .gt_font_bold {
   font-weight: bold;
 }
 
-#sdvhgdzeff .gt_font_italic {
+#ggqcakvqok .gt_font_italic {
   font-style: italic;
 }
 
-#sdvhgdzeff .gt_super {
+#ggqcakvqok .gt_super {
   font-size: 65%;
 }
 
-#sdvhgdzeff .gt_footnote_marks {
+#ggqcakvqok .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#sdvhgdzeff .gt_asterisk {
+#ggqcakvqok .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#sdvhgdzeff .gt_indent_1 {
+#ggqcakvqok .gt_indent_1 {
   text-indent: 5px;
 }
 
-#sdvhgdzeff .gt_indent_2 {
+#ggqcakvqok .gt_indent_2 {
   text-indent: 10px;
 }
 
-#sdvhgdzeff .gt_indent_3 {
+#ggqcakvqok .gt_indent_3 {
   text-indent: 15px;
 }
 
-#sdvhgdzeff .gt_indent_4 {
+#ggqcakvqok .gt_indent_4 {
   text-indent: 20px;
 }
 
-#sdvhgdzeff .gt_indent_5 {
+#ggqcakvqok .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -985,34 +988,57 @@ rr  &lt;- Match(Y=Y, Tr=Tr, X=X, M=1)
 <div id="linear-regression-model" class="section level2">
 <h2>Linear regression model</h2>
 <p>Hypotheses:</p>
-<p><span class="math display">\[H_0: \mu_{store} \ge \mu_{web}~~ vs.
-~~H_1: \mu_{store} &lt;  \mu_{web}\]</span></p>
-<p>Based on table 3, after controlling other important covariates,
-reject H0 due to p value &lt; 0.05, so conclude there is significant
-edivence showing customers who prefer stores shopping customers would
-spend less compared with who prefer web shopping online.</p>
+<p>we are studying if people purchase in different ways will affect
+their money spend on grocery. Here is how two sample hypothesis test
+works:</p>
+<p>-the null hypothesis <span class="math inline">\(H_0\)</span> is
+<span class="math inline">\(H_0: \mu_{store} \ge \mu_{web}\)</span>; it
+means the population average of amount spent for people who purchased in
+store is greater and equal to those on website.</p>
+<p>-the alternative hypothesis <span class="math inline">\(H_a\)</span>
+is <span class="math inline">\(H_1: \mu_{store} &lt; \mu_{web}\)</span>;
+it means the population average of amount spent for people who purchased
+in store is less than those on website. <span
+class="math inline">\(\mu_{web}\)</span> representing the population
+mean of amount spend for people who purchased on website.</p>
+<p>We will calculate test statistics by using R code. And then simulate
+the difference in sample mean of amount spend between people who
+purchased online and who purchased in store, assume the population mean
+between two groups are the same. Then we need to find p-value. When
+p-value is smaller than 0.05, it is statistically significant and it
+indicates strong evidence against the <span
+class="math inline">\(H_0:\mu_{store} \ge \mu_{web}\)</span> hypothesis,
+so we have evidence to show customers spend more average amount of money
+when they purchase online than when they shop in a physical store.
+However, if the p-value we get from the sample is larger than 0.05, it
+indicates strong evidence for the null hypothesis.</p>
+<p>Based on table 3 below, after controlling other important covariates,
+reject <span class="math inline">\(H_0\)</span> due to p value is less
+than 0.05, so we could conclude that there is significant evidence
+showing customers who prefer stores shopping customers would spend less
+compared with who prefer web shopping online.</p>
 <pre class="r"><code>data3 &lt;- data2[c(rr$index.treated, rr$index.control), ]
 
 model &lt;- lm(Total_amount ~ ., data = data3)
 
 gtsummary::tbl_regression(model )</code></pre>
-<div id="xoakhxwprk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xoakhxwprk table {
+<div id="hgrawhuhrh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hgrawhuhrh table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xoakhxwprk thead, #xoakhxwprk tbody, #xoakhxwprk tfoot, #xoakhxwprk tr, #xoakhxwprk td, #xoakhxwprk th {
+#hgrawhuhrh thead, #hgrawhuhrh tbody, #hgrawhuhrh tfoot, #hgrawhuhrh tr, #hgrawhuhrh td, #hgrawhuhrh th {
   border-style: none;
 }
 
-#xoakhxwprk p {
+#hgrawhuhrh p {
   margin: 0;
   padding: 0;
 }
 
-#xoakhxwprk .gt_table {
+#hgrawhuhrh .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1038,12 +1064,12 @@ gtsummary::tbl_regression(model )</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#xoakhxwprk .gt_caption {
+#hgrawhuhrh .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xoakhxwprk .gt_title {
+#hgrawhuhrh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1055,7 +1081,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-bottom-width: 0;
 }
 
-#xoakhxwprk .gt_subtitle {
+#hgrawhuhrh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1067,7 +1093,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-top-width: 0;
 }
 
-#xoakhxwprk .gt_heading {
+#hgrawhuhrh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1079,13 +1105,13 @@ gtsummary::tbl_regression(model )</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#xoakhxwprk .gt_bottom_border {
+#hgrawhuhrh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xoakhxwprk .gt_col_headings {
+#hgrawhuhrh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1100,7 +1126,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#xoakhxwprk .gt_col_heading {
+#hgrawhuhrh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1120,7 +1146,7 @@ gtsummary::tbl_regression(model )</code></pre>
   overflow-x: hidden;
 }
 
-#xoakhxwprk .gt_column_spanner_outer {
+#hgrawhuhrh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1132,15 +1158,15 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 4px;
 }
 
-#xoakhxwprk .gt_column_spanner_outer:first-child {
+#hgrawhuhrh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xoakhxwprk .gt_column_spanner_outer:last-child {
+#hgrawhuhrh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xoakhxwprk .gt_column_spanner {
+#hgrawhuhrh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1152,11 +1178,11 @@ gtsummary::tbl_regression(model )</code></pre>
   width: 100%;
 }
 
-#xoakhxwprk .gt_spanner_row {
+#hgrawhuhrh .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xoakhxwprk .gt_group_heading {
+#hgrawhuhrh .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1182,7 +1208,7 @@ gtsummary::tbl_regression(model )</code></pre>
   text-align: left;
 }
 
-#xoakhxwprk .gt_empty_group_heading {
+#hgrawhuhrh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1197,15 +1223,15 @@ gtsummary::tbl_regression(model )</code></pre>
   vertical-align: middle;
 }
 
-#xoakhxwprk .gt_from_md > :first-child {
+#hgrawhuhrh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xoakhxwprk .gt_from_md > :last-child {
+#hgrawhuhrh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xoakhxwprk .gt_row {
+#hgrawhuhrh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1224,7 +1250,7 @@ gtsummary::tbl_regression(model )</code></pre>
   overflow-x: hidden;
 }
 
-#xoakhxwprk .gt_stub {
+#hgrawhuhrh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1237,7 +1263,7 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 5px;
 }
 
-#xoakhxwprk .gt_stub_row_group {
+#hgrawhuhrh .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1251,15 +1277,15 @@ gtsummary::tbl_regression(model )</code></pre>
   vertical-align: top;
 }
 
-#xoakhxwprk .gt_row_group_first td {
+#hgrawhuhrh .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xoakhxwprk .gt_row_group_first th {
+#hgrawhuhrh .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xoakhxwprk .gt_summary_row {
+#hgrawhuhrh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1269,16 +1295,16 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 5px;
 }
 
-#xoakhxwprk .gt_first_summary_row {
+#hgrawhuhrh .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xoakhxwprk .gt_first_summary_row.thick {
+#hgrawhuhrh .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xoakhxwprk .gt_last_summary_row {
+#hgrawhuhrh .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1288,7 +1314,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#xoakhxwprk .gt_grand_summary_row {
+#hgrawhuhrh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1298,7 +1324,7 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 5px;
 }
 
-#xoakhxwprk .gt_first_grand_summary_row {
+#hgrawhuhrh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1308,7 +1334,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#xoakhxwprk .gt_last_grand_summary_row_top {
+#hgrawhuhrh .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1318,11 +1344,11 @@ gtsummary::tbl_regression(model )</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#xoakhxwprk .gt_striped {
+#hgrawhuhrh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xoakhxwprk .gt_table_body {
+#hgrawhuhrh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1331,7 +1357,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#xoakhxwprk .gt_footnotes {
+#hgrawhuhrh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1345,7 +1371,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#xoakhxwprk .gt_footnote {
+#hgrawhuhrh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1354,7 +1380,7 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 5px;
 }
 
-#xoakhxwprk .gt_sourcenotes {
+#hgrawhuhrh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1368,7 +1394,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#xoakhxwprk .gt_sourcenote {
+#hgrawhuhrh .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1376,63 +1402,63 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 5px;
 }
 
-#xoakhxwprk .gt_left {
+#hgrawhuhrh .gt_left {
   text-align: left;
 }
 
-#xoakhxwprk .gt_center {
+#hgrawhuhrh .gt_center {
   text-align: center;
 }
 
-#xoakhxwprk .gt_right {
+#hgrawhuhrh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xoakhxwprk .gt_font_normal {
+#hgrawhuhrh .gt_font_normal {
   font-weight: normal;
 }
 
-#xoakhxwprk .gt_font_bold {
+#hgrawhuhrh .gt_font_bold {
   font-weight: bold;
 }
 
-#xoakhxwprk .gt_font_italic {
+#hgrawhuhrh .gt_font_italic {
   font-style: italic;
 }
 
-#xoakhxwprk .gt_super {
+#hgrawhuhrh .gt_super {
   font-size: 65%;
 }
 
-#xoakhxwprk .gt_footnote_marks {
+#hgrawhuhrh .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xoakhxwprk .gt_asterisk {
+#hgrawhuhrh .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xoakhxwprk .gt_indent_1 {
+#hgrawhuhrh .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xoakhxwprk .gt_indent_2 {
+#hgrawhuhrh .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xoakhxwprk .gt_indent_3 {
+#hgrawhuhrh .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xoakhxwprk .gt_indent_4 {
+#hgrawhuhrh .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xoakhxwprk .gt_indent_5 {
+#hgrawhuhrh .gt_indent_5 {
   text-indent: 25px;
 }
 </style>

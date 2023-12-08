@@ -46,14 +46,9 @@ data$Marital_Status[data$Marital_Status %in% c("Absurd", "Alone","YOLO","Widow")
 
 # Models
 
-## Propensity score matching model
+## Propensity score matching 
 
-* useful for observational data
-
-* balance is better after matching than before 
-
-* after Propensity score matching model using linear regression model
-
+Propensity score matching is intended to help us find treatment and control groups, so that we could make causal inference on observational dataset. Propensity score matching is a valuable technique for analyzing observational data. It significantly improves balance in the data by ensuring that matched groups are more comparable. This improved balance is evident when comparing the state of the data before and after matching. Once propensity score matching has been applied, the data can be further analyzed using a linear regression model, allowing for more accurate and reliable insights. 
 ```{r,results="asis"}
 library(Matching)
 # Estimate the propensity model
@@ -88,9 +83,15 @@ rr  <- Match(Y=Y, Tr=Tr, X=X, M=1)
 
 Hypotheses:
 
-$$H_0: \mu_{store} \ge \mu_{web}~~ vs. ~~H_1: \mu_{store} <  \mu_{web}$$
+we are studying if people purchase in different ways will affect their money spend on grocery. Here is how two sample hypothesis test works: 
 
-Based on table 3, after controlling other important covariates, reject H0 due to p value < 0.05, so conclude there is significant edivence showing  customers who  prefer stores shopping customers would spend less compared with who prefer web shopping online.
+-the null hypothesis $H_0$ is $H_0: \mu_{store} \ge \mu_{web}$; it means the population average of amount spent for people who purchased in store is greater and equal to those on website. 
+
+-the alternative hypothesis $H_a$ is $H_1: \mu_{store} <  \mu_{web}$; it means the population average of amount spent for people who purchased in store is less than those on website. $\mu_{web}$ representing the population mean of amount spend for people who purchased on website.
+
+We will calculate test statistics by using R code. And then simulate the difference in sample mean of amount spend between people who purchased online and who purchased in store, assume the population mean between two groups are the same. Then we need to find p-value. When p-value is smaller than 0.05, it is statistically significant and it indicates strong evidence against the $H_0:\mu_{store} \ge \mu_{web}$ hypothesis, so we have evidence to show customers spend more average amount of money when they purchase online than when they shop in a physical store. However, if the p-value we get from the sample is larger than 0.05, it indicates strong evidence for the null hypothesis.
+
+Based on table 3 below, after controlling other important covariates, reject $H_0$ due to p value is less than 0.05, so we could conclude that there is significant evidence showing customers who  prefer stores shopping customers would spend less compared with who prefer web shopping online.
 
 
 ```{r,results="asis"}
