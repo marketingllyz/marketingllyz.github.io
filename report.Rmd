@@ -67,6 +67,7 @@ Table 1 shows Data descriptive statistics grouped by prefer web or store for eac
 
 ```{r, results = "asis"}
 library(gtsummary)
+library(ggthemes)
 data  %>%
   tbl_summary(by = Prefer_web_or_store, type = list(Accept_camps ~ "continuous")) %>%
   add_p(pvalue_fun = ~ style_pvalue(.x, digits = 2)) %>%
@@ -90,102 +91,7 @@ data  %>%
   Educational level, marital status, household composition, costumer feedback behavior, marketing campaign receptiveness
 
 
-```{r, fig.height=9.8, fig.width=9.8}
-library(ggplot2)
-library(ggthemes)
-library(scales)
-
-d <- data %>% 
-  group_by(Prefer_web_or_store,Education ) %>% 
-  count() %>%
-  group_by(Education  ) %>% 
-  mutate(pct = n/sum(n))
-
-g1 <- ggplot(d, aes(Education  , pct, fill =  Prefer_web_or_store)) +
-  geom_col(position = "dodge") +
-  scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Pastel1") +
-  theme_economist_white() +
-  labs(x = "Education level",
-       y = "Percentage",
-       fill = "Prefer web or store")
-
-d <- data %>% 
-  group_by(Prefer_web_or_store,Marital_Status ) %>% 
-  count() %>%
-  group_by(Marital_Status) %>% 
-  mutate(pct = n/sum(n))
-g2 <- ggplot(d, aes(Marital_Status , pct, fill =  Prefer_web_or_store)) +
-  geom_col(position = "dodge") +
-  scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Pastel1") +
-  theme_economist_white() +
-  labs(x = "Marital status",
-       y = "Percentage",
-       fill = "Prefer web or store")
-
-d <- data %>% 
-  group_by(Prefer_web_or_store,Kidhome ) %>% 
-  count() %>%
-  group_by(Kidhome) %>% 
-  mutate(pct = n/sum(n))
-
-g3 <- ggplot(d, aes(factor(Kidhome) , pct, fill =  Prefer_web_or_store)) +
-  geom_col(position = "dodge") +
-  scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Pastel1") +
-  theme_economist_white() +
-  labs(x = "Number of small children",
-       y = "Percentage",
-       fill = "Prefer web or store")
-
-d <- data %>% group_by(Prefer_web_or_store,Teenhome ) %>% 
-  count() %>%
-  group_by(Teenhome) %>% 
-  mutate(pct = n/sum(n))
-
-g4 <- ggplot(d, aes(factor(Teenhome) , pct, fill =  Prefer_web_or_store)) +
-  geom_col(position = "dodge") +
-  scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Pastel1") +
-  theme_economist_white() +
-  labs(x = "Number of teenagers",
-       y = "Percentage",
-       fill = "Prefer web or store")
-
-d <- data %>% 
-  group_by(Prefer_web_or_store,Complain ) %>% 
-  count() %>%
-  group_by(Complain ) %>% 
-  mutate(pct= n/sum(n))
-
-g5 <- ggplot(d, aes(factor(Complain ) , pct, fill =  Prefer_web_or_store)) +
-  geom_col(position = "dodge") +
-  scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Pastel1") +
-  theme_economist_white() +
-  labs(x = "Complain or not",
-       y = "Percentage",
-       fill = "Prefer web or store")
-
-d <- data %>% 
-  group_by(Prefer_web_or_store,Accept_camps ) %>% 
-  count() %>%
-  group_by(Accept_camps ) %>% 
-  mutate(pct= n/sum(n))
-
-g6 <- ggplot(d, aes(factor(Accept_camps ) , pct, fill =  Prefer_web_or_store)) +
-  geom_col(position = "dodge") +
-  scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Pastel1") +
-  theme_economist_white() +
-  labs(x = "Accept number of campaigns",
-       y = "Percentage",
-       fill = "Prefer web or store")
-
-library(cowplot)
-plot_grid(g1,g2,g3,g4,g5,g6,nrow = 3)
-```
+<iframe height="480" width="100%" frameborder="no" src="https://marketingllyz.shinyapps.io/shiny/"> </iframe>
 
 ### Figure 2 shows distributions of response variable total amount with prefer web or store
 
