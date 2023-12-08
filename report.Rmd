@@ -295,8 +295,30 @@ gtsummary::tbl_regression(model )
 
 ```
 
+# Key Takeaways:
 
-## Weaknesses and Next Step
+* Statistical Significance: The p-value less than 0.05 indicates that the results are statistically significant. This suggests that there is a meaningful difference in the amount of money spent by customers who shop online versus those who shop in-store.
+
+* Consumer Behavior Insights: The rejection of the null hypothesis ($H_0: \mu_{store} \ge \mu_{web}$) implies that, on average, people who shop online spend more on groceries than those who shop in-store. This could reflect different shopping habits, availability of choices, or the influence of online marketing techniques.
+
+* Impact of Covariates: The analysis controlled for other important covariates, which helps isolate the effect of the shopping medium (online vs. in-store) on spending. This implies that the observed effect is not just due to other factors but is specifically related to the mode of shopping.
+
+* Methodological Rigor: The use of R code for calculating test statistics and simulating differences implies a rigorous, data-driven approach. This enhances the credibility of the findings.
+
+# Potential Future Analysis:
+
+* Deeper Demographic Analysis: Investigate how different demographic groups (age, income level, region, etc.) behave in terms of online versus in-store grocery shopping. This could reveal more nuanced patterns in consumer behavior.
+
+* Longitudinal Study: Conduct a longitudinal study to observe changes over time. This could show whether the trend of spending more online is increasing, decreasing, or stable.
+
+* Impact of Technology and User Experience: Analyze how website design, app usability, and other technological factors might influence online spending habits.
+
+* Economic Impacts: Assess the broader economic implications of these shopping habits, such as the impact on local businesses versus large online retailers.
+
+* Experimental Designs: Implement experimental designs, like A/B testing, to further explore causal relationships and test specific interventions.
+
+
+# Weaknesses and Next Step
 
 * The work might have some drawbacks as follows. Firstly, in this research we categorize customers who purchase online more than in stores as purchasing as purchasing online, but that doesn't mean they don't shop in stores. This could be a confounding variable hat influences the true relationship between the amount spend on grocery and customers' purchasing choices.
 
