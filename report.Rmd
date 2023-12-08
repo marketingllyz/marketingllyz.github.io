@@ -11,23 +11,17 @@ output:
 knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
 ```
 
-# Data cleaning
+# Data informations
 
-* Add amount of wines, fruits, meat ... into total amount spend
+## Data Overview
+- The data `marketing_campaign.csv` for this study was sourced from Kaggle, with its latest update in 2021. This dataset is a detailed aggregation of consumer behavior and demographic information, focusing specifically on the shopping patterns related to grocery spending, whether online or in-store. It encompasses 2240 individual records and 29 distinct attributes that extensively cover the relevant data points.
 
-* Create a prefer web or store option: number of web > store, prefer "web", vice versa
+## Data Refinement
+- For our analytical work, the initial dataset, featuring records of 2240 customers, was ingested into the R environment using the `read_csv()` method. Excess columns that were not essential to our analysis, such as `ID`, `Z_CostContact`, `Z_Revenue`, `NumCatalogPurchases`, and `NumDealsPurchases`, were excised to concentrate on more significant variables.
 
-* Add total of accepted compaigns
+- In the subsequent cleaning stage, we engineered several key variables: `Total_amount` to represent aggregate expenditure, `Prefer_web_or_store` to discern the shopping medium preference, `Accept_camps` as an aggregate indicator of marketing campaign responses, and `Age` to denote the age of customers at the time of their first transaction. Additionally, we streamlined the dataset by renaming `NumWebVisitsMonth` to `WebVisits` to enhance clarity.
 
-* `Age`: be customer date minus year birth
-
-* `Marital_Status` in  ("Absurd", "Alone","YOLO","Widow") merged into "Other"
-
-* Remove missing values in `Income`
-
-* Final data has variables  `Education``Marital_Status` `Income`   `Kidhome` `Teenhome`  `Recency`  `WebVisits`   `Complain`      `Total_amount`   `Prefer_web_or_store` `Accept_camps`  `Age`, other variables omitted
-
-* Final data has 2216 observations with 12 variables
+- We further refined the dataset by excluding any entries with incomplete data and by condensing less frequent marital statuses into a single 'Other' category to reduce complexity for the forthcoming analysis. The resulting dataset is free from unnecessary data, enriched with variables that offer a complete perspective on consumer behaviors.
 
 ```{r message=FALSE}
 # Load libraries
@@ -55,13 +49,40 @@ data$Marital_Status[data$Marital_Status %in% c("Absurd", "Alone", "YOLO", "Widow
 
 ```
 
+### The Final dataset contains the following 12 variables:
+
+#### Demographic
+
+- `Age`: Customer data minus date of birth
+- `Education`: Customer's education level
+- `Marital_Status`: Customer's marital status
+- `Income`: Customer's yearly household income
+- `Kidhome`: Number of children in customer's household
+- `Teenhome`: Number of teenagers in customer's household
+- `Recency`: Number of days since customer's last purchase
+- `Complain`: 1 if the customer complained in the last 2 years, 0 otherwise
 
 
-# EDA
+#### Consumptions
+
+- `Total_amount`: Sum of the amount of products the customer purchased, included wines, fruits, meat, fish, sweet and gold.
+
+
+#### Marketing Response
+
+- `Accept_Camps`: if customer accepted the offer in the 1st campaign, 0 otherwise
+
+#### Shopping Preference
+
+- `Prefer_web_or_store`: Customer prefer web or in-store shopping
+- `WebVisits`: Number of visits to company’s website in the last month
+
+
+# Exploratory Data Analysis
 
 ## Numerical summary 
 
-Table 1 shows Data descriptive statistics grouped by prefer web or store for each variable
+- Table 1 shows Data descriptive statistics grouped by prefer web or store for each variable
 
 \newpage
 
@@ -86,21 +107,22 @@ data  %>%
 
 ### Figure 1 shows distributions of categorical covariates variables with prefer web or store
 
-  The set of bar graphs present a comparative analysis of consumer preferences between in-store (depicted in purple) and web-based shopping (depicted in yellow) across various demographic segments and behavioral factors. 
+- The set of bar graphs present a comparative analysis of consumer preferences between in-store (depicted in pink) and web-based shopping (depicted in blue) across various demographic segments and behavioral factors. 
   These segments and factors include: 
-  Educational level, marital status, household composition, costumer feedback behavior, marketing campaign receptiveness
+  **Educational level, marital status, household composition, costumer feedback behavior, marketing campaign receptiveness**
 
 
 <iframe height="480" width="100%" frameborder="no" src="https://marketingllyz.shinyapps.io/shiny/"> </iframe>
 
 ### Figure 2 shows distributions of response variable total amount with prefer web or store
 
-  The image shows a box plot with two categories: 
-  one for customers who prefer shopping in stores (red) and another for those who prefer shopping online (blue). 
+- **The image shows a box plot with two categories:**
+  one for customers who prefer shopping in stores (pink) and another for those who prefer shopping online (blue). 
   A box plot displays the range of spending, the median (middle value), and any outliers (unusually high or low values).
 
-  In this plot, the median spending for in-store shoppers is lower, suggesting they generally spend less, but there are a few who spend a lot more, shown by the dots above the main box. 
-  For online shoppers, the median spending is higher and more in the middle of the range, indicating a more balanced spending pattern, without any outliers. This suggests that people who shop online tend to spend more evenly, while those who shop in stores have a wider range of spending habits.
+- In this plot, the median spending for in-store shoppers is lower, suggesting they generally spend less, but there are a few who spend a lot more, shown by the dots above the main box. 
+
+- For online shoppers, the median spending is higher and more in the middle of the range, indicating a more balanced spending pattern, without any outliers. This suggests that people who shop online tend to spend more evenly, while those who shop in stores have a wider range of spending habits.
 
 \newpage
 ```{r, fig.height=4.8, fig.width=6.8}
@@ -117,8 +139,8 @@ plotly::ggplotly(g1)
 
 ### Figure 3 shows distributions of continous covariates variables with prefer web or store
 
-  The image shows four kernel density plots comparing the preferences for shopping in-store (shown in red) versus online (shown in blue) across different customer characteristics:
-  Age, yearly income, web visits monthly, recency
+- The image shows four kernel density plots comparing the preferences for shopping in-store (shown in pink) versus online (shown in blue) across different customer characteristics:
+**Age, yearly income, web visits monthly, recency**
 
 ```{r, fig.height=6.8, fig.width=7.8}
 library(ggplot2)
@@ -158,7 +180,7 @@ plot_grid(g5, g2, g4, g3, nrow = 2)
 
 ## Propensity score matching 
 
-Propensity score matching is intended to help us find treatment and control groups, so that we could make causal inference on observational dataset. Propensity score matching is a valuable technique for analyzing observational data. It significantly improves balance in the data by ensuring that matched groups are more comparable. This improved balance is evident when comparing the state of the data before and after matching. Once propensity score matching has been applied, the data can be further analyzed using a linear regression model, allowing for more accurate and reliable insights. 
+- Propensity score matching is intended to help us find treatment and control groups, so that we could make causal inference on observational dataset. Propensity score matching is a valuable technique for analyzing observational data. It significantly improves balance in the data by ensuring that matched groups are more comparable. This improved balance is evident when comparing the state of the data before and after matching. Once propensity score matching has been applied, the data can be further analyzed using a linear regression model, allowing for more accurate and reliable insights. 
 
 ```{r,results="asis"}
 library(Matching)
@@ -192,17 +214,17 @@ rr  <- Match(Y=Y, Tr=Tr, X=X, M=1)
 
 ## Linear regression model
 
-Hypotheses:
+**Hypotheses:**
 
-we are studying if people purchase in different ways will affect their money spend on grocery. Here is how two sample hypothesis test works: 
+We are studying if people purchase in different ways will affect their money spend on grocery. Here is how two sample hypothesis test works: 
 
--the null hypothesis $H_0$ is $H_0: \mu_{store} \ge \mu_{web}$; it means the population average of amount spent for people who purchased in store is greater and equal to those on website. 
+- the null hypothesis $H_0$ is $H_0: \mu_{store} \ge \mu_{web}$; it means the population average of amount spent for people who purchased in store is greater and equal to those on website. 
 
--the alternative hypothesis $H_a$ is $H_1: \mu_{store} <  \mu_{web}$; it means the population average of amount spent for people who purchased in store is less than those on website. $\mu_{web}$ representing the population mean of amount spend for people who purchased on website.
+- The alternative hypothesis $H_a$ is $H_1: \mu_{store} <  \mu_{web}$; it means the population average of amount spent for people who purchased in store is less than those on website. $\mu_{web}$ representing the population mean of amount spend for people who purchased on website.
 
 We will calculate test statistics by using R code. And then simulate the difference in sample mean of amount spend between people who purchased online and who purchased in store, assume the population mean between two groups are the same. Then we need to find p-value. When p-value is smaller than 0.05, it is statistically significant and it indicates strong evidence against the $H_0:\mu_{store} \ge \mu_{web}$ hypothesis, so we have evidence to show customers spend more average amount of money when they purchase online than when they shop in a physical store. However, if the p-value we get from the sample is larger than 0.05, it indicates strong evidence for the null hypothesis.
 
-Based on table 3 below, after controlling other important covariates, reject $H_0$ due to p value is less than 0.05, so we could conclude that there is significant evidence showing customers who  prefer stores shopping customers would spend less compared with who prefer web shopping online.
+Based on table 3 below, after controlling other important covariates, reject $H_0$ due to p value is less than 0.05, so we could conclude that there is significant evidence showing customers who prefer stores shopping customers would spend less compared with who prefer web shopping online.
 
 ```{r,results="asis"}
 data3 <- data2[c(rr$index.treated, rr$index.control), ]
@@ -215,32 +237,32 @@ gtsummary::tbl_regression(model )
 
 ```
 
-# Key Takeaways:
+# Key Takeaways
 
-* Statistical Significance: The p-value less than 0.05 indicates that the results are statistically significant. This suggests that there is a meaningful difference in the amount of money spent by customers who shop online versus those who shop in-store.
+- **Statistical Significance:** The p-value less than 0.05 indicates that the results are statistically significant. This suggests that there is a meaningful difference in the amount of money spent by customers who shop online versus those who shop in-store.
 
-* Consumer Behavior Insights: The rejection of the null hypothesis ($H_0: \mu_{store} \ge \mu_{web}$) implies that, on average, people who shop online spend more on groceries than those who shop in-store. This could reflect different shopping habits, availability of choices, or the influence of online marketing techniques.
+- **Consumer Behavior Insights:** The rejection of the null hypothesis ($H_0: \mu_{store} \ge \mu_{web}$) implies that, on average, people who shop online spend more on groceries than those who shop in-store. This could reflect different shopping habits, availability of choices, or the influence of online marketing techniques.
 
-* Impact of Covariates: The analysis controlled for other important covariates, which helps isolate the effect of the shopping medium (online vs. in-store) on spending. This implies that the observed effect is not just due to other factors but is specifically related to the mode of shopping.
+- **Impact of Covariates:** The analysis controlled for other important covariates, which helps isolate the effect of the shopping medium (online vs. in-store) on spending. This implies that the observed effect is not just due to other factors but is specifically related to the mode of shopping.
 
-* Methodological Rigor: The use of R code for calculating test statistics and simulating differences implies a rigorous, data-driven approach. This enhances the credibility of the findings.
+- **Methodological Rigor:** The use of R code for calculating test statistics and simulating differences implies a rigorous, data-driven approach. This enhances the credibility of the findings.
 
-# Potential Future Analysis:
+# Potential Future Analysis
 
-* Deeper Demographic Analysis: Investigate how different demographic groups (age, income level, region, etc.) behave in terms of online versus in-store grocery shopping. This could reveal more nuanced patterns in consumer behavior.
+- **Deeper Demographic Analysis:** Investigate how different demographic groups (age, income level, region, etc.) behave in terms of online versus in-store grocery shopping. This could reveal more nuanced patterns in consumer behavior.
 
-* Longitudinal Study: Conduct a longitudinal study to observe changes over time. This could show whether the trend of spending more online is increasing, decreasing, or stable.
+- **Longitudinal Study:** Conduct a longitudinal study to observe changes over time. This could show whether the trend of spending more online is increasing, decreasing, or stable.
 
-* Impact of Technology and User Experience: Analyze how website design, app usability, and other technological factors might influence online spending habits.
+- **Impact of Technology and User Experience:** Analyze how website design, app usability, and other technological factors might influence online spending habits.
 
-* Economic Impacts: Assess the broader economic implications of these shopping habits, such as the impact on local businesses versus large online retailers.
+- **Economic Impacts:** Assess the broader economic implications of these shopping habits, such as the impact on local businesses versus large online retailers.
 
-* Experimental Designs: Implement experimental designs, like A/B testing, to further explore causal relationships and test specific interventions.
+- **Experimental Designs:** Implement experimental designs, like A/B testing, to further explore causal relationships and test specific interventions.
 
 
 # Weaknesses and Next Step
 
-* The work might have some drawbacks as follows. Firstly, in this research we categorize customers who purchase online more than in stores as purchasing as purchasing online, but that doesn't mean they don't shop in stores. This could be a confounding variable hat influences the true relationship between the amount spend on grocery and customers' purchasing choices.
+- The work might have some drawbacks as follows. Firstly, in this research we categorize customers who purchase online more than in stores as purchasing as purchasing online, but that doesn't mean they don't shop in stores. This could be a confounding variable hat influences the true relationship between the amount spend on grocery and customers' purchasing choices.
 
 
 

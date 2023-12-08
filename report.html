@@ -389,25 +389,44 @@ div.tocify {
 </div>
 
 
-<div id="data-cleaning" class="section level1">
-<h1>Data cleaning</h1>
+<div id="data-informations" class="section level1">
+<h1>Data informations</h1>
+<div id="data-overview" class="section level2">
+<h2>Data Overview</h2>
 <ul>
-<li><p>Add amount of wines, fruits, meat … into total amount
-spend</p></li>
-<li><p>Create a prefer web or store option: number of web &gt; store,
-prefer “web”, vice versa</p></li>
-<li><p>Add total of accepted compaigns</p></li>
-<li><p><code>Age</code>: be customer date minus year birth</p></li>
-<li><p><code>Marital_Status</code> in (“Absurd”, “Alone”,“YOLO”,“Widow”)
-merged into “Other”</p></li>
-<li><p>Remove missing values in <code>Income</code></p></li>
-<li><p>Final data has variables <code>Education``Marital_Status</code>
-<code>Income</code> <code>Kidhome</code> <code>Teenhome</code>
-<code>Recency</code> <code>WebVisits</code> <code>Complain</code>
-<code>Total_amount</code> <code>Prefer_web_or_store</code>
-<code>Accept_camps</code> <code>Age</code>, other variables
-omitted</p></li>
-<li><p>Final data has 2216 observations with 12 variables</p></li>
+<li>The data <code>marketing_campaign.csv</code> for this study was
+sourced from Kaggle, with its latest update in 2021. This dataset is a
+detailed aggregation of consumer behavior and demographic information,
+focusing specifically on the shopping patterns related to grocery
+spending, whether online or in-store. It encompasses 2240 individual
+records and 29 distinct attributes that extensively cover the relevant
+data points.</li>
+</ul>
+</div>
+<div id="data-refinement" class="section level2">
+<h2>Data Refinement</h2>
+<ul>
+<li><p>For our analytical work, the initial dataset, featuring records
+of 2240 customers, was ingested into the R environment using the
+<code>read_csv()</code> method. Excess columns that were not essential
+to our analysis, such as <code>ID</code>, <code>Z_CostContact</code>,
+<code>Z_Revenue</code>, <code>NumCatalogPurchases</code>, and
+<code>NumDealsPurchases</code>, were excised to concentrate on more
+significant variables.</p></li>
+<li><p>In the subsequent cleaning stage, we engineered several key
+variables: <code>Total_amount</code> to represent aggregate expenditure,
+<code>Prefer_web_or_store</code> to discern the shopping medium
+preference, <code>Accept_camps</code> as an aggregate indicator of
+marketing campaign responses, and <code>Age</code> to denote the age of
+customers at the time of their first transaction. Additionally, we
+streamlined the dataset by renaming <code>NumWebVisitsMonth</code> to
+<code>WebVisits</code> to enhance clarity.</p></li>
+<li><p>We further refined the dataset by excluding any entries with
+incomplete data and by condensing less frequent marital statuses into a
+single ‘Other’ category to reduce complexity for the forthcoming
+analysis. The resulting dataset is free from unnecessary data, enriched
+with variables that offer a complete perspective on consumer
+behaviors.</p></li>
 </ul>
 <pre class="r"><code># Load libraries
 library(readr)
@@ -431,13 +450,61 @@ data = data %&gt;%
 
 # Adjust Marital Status
 data$Marital_Status[data$Marital_Status %in% c(&quot;Absurd&quot;, &quot;Alone&quot;, &quot;YOLO&quot;, &quot;Widow&quot;)] = &quot;Other&quot;</code></pre>
+<div id="the-final-dataset-contains-the-following-12-variables"
+class="section level3">
+<h3>The Final dataset contains the following 12 variables:</h3>
+<div id="demographic" class="section level4">
+<h4>Demographic</h4>
+<ul>
+<li><code>Age</code>: Customer data minus date of birth</li>
+<li><code>Education</code>: Customer’s education level</li>
+<li><code>Marital_Status</code>: Customer’s marital status</li>
+<li><code>Income</code>: Customer’s yearly household income</li>
+<li><code>Kidhome</code>: Number of children in customer’s
+household</li>
+<li><code>Teenhome</code>: Number of teenagers in customer’s
+household</li>
+<li><code>Recency</code>: Number of days since customer’s last
+purchase</li>
+<li><code>Complain</code>: 1 if the customer complained in the last 2
+years, 0 otherwise</li>
+</ul>
 </div>
-<div id="eda" class="section level1">
-<h1>EDA</h1>
+<div id="consumptions" class="section level4">
+<h4>Consumptions</h4>
+<ul>
+<li><code>Total_amount</code>: Sum of the amount of products the
+customer purchased, included wines, fruits, meat, fish, sweet and
+gold.</li>
+</ul>
+</div>
+<div id="marketing-response" class="section level4">
+<h4>Marketing Response</h4>
+<ul>
+<li><code>Accept_Camps</code>: if customer accepted the offer in the 1st
+campaign, 0 otherwise</li>
+</ul>
+</div>
+<div id="shopping-preference" class="section level4">
+<h4>Shopping Preference</h4>
+<ul>
+<li><code>Prefer_web_or_store</code>: Customer prefer web or in-store
+shopping</li>
+<li><code>WebVisits</code>: Number of visits to company’s website in the
+last month</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="exploratory-data-analysis" class="section level1">
+<h1>Exploratory Data Analysis</h1>
 <div id="numerical-summary" class="section level2">
 <h2>Numerical summary</h2>
-<p>Table 1 shows Data descriptive statistics grouped by prefer web or
-store for each variable</p>
+<ul>
+<li>Table 1 shows Data descriptive statistics grouped by prefer web or
+store for each variable</li>
+</ul>
 <div style="page-break-after: always;"></div>
 <pre class="r"><code>library(gtsummary)
 library(ggthemes)
@@ -453,23 +520,23 @@ data  %&gt;%
   ) %&gt;%
   modify_caption(&quot;**Data descriptive statistics**&quot;) %&gt;%
   bold_labels()</code></pre>
-<div id="vxpmepivoy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#vxpmepivoy table {
+<div id="vzkdbusbmd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vzkdbusbmd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#vxpmepivoy thead, #vxpmepivoy tbody, #vxpmepivoy tfoot, #vxpmepivoy tr, #vxpmepivoy td, #vxpmepivoy th {
+#vzkdbusbmd thead, #vzkdbusbmd tbody, #vzkdbusbmd tfoot, #vzkdbusbmd tr, #vzkdbusbmd td, #vzkdbusbmd th {
   border-style: none;
 }
 
-#vxpmepivoy p {
+#vzkdbusbmd p {
   margin: 0;
   padding: 0;
 }
 
-#vxpmepivoy .gt_table {
+#vzkdbusbmd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -495,12 +562,12 @@ data  %&gt;%
   border-left-color: #D3D3D3;
 }
 
-#vxpmepivoy .gt_caption {
+#vzkdbusbmd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#vxpmepivoy .gt_title {
+#vzkdbusbmd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -512,7 +579,7 @@ data  %&gt;%
   border-bottom-width: 0;
 }
 
-#vxpmepivoy .gt_subtitle {
+#vzkdbusbmd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -524,7 +591,7 @@ data  %&gt;%
   border-top-width: 0;
 }
 
-#vxpmepivoy .gt_heading {
+#vzkdbusbmd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -536,13 +603,13 @@ data  %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#vxpmepivoy .gt_bottom_border {
+#vzkdbusbmd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vxpmepivoy .gt_col_headings {
+#vzkdbusbmd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -557,7 +624,7 @@ data  %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#vxpmepivoy .gt_col_heading {
+#vzkdbusbmd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -577,7 +644,7 @@ data  %&gt;%
   overflow-x: hidden;
 }
 
-#vxpmepivoy .gt_column_spanner_outer {
+#vzkdbusbmd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -589,15 +656,15 @@ data  %&gt;%
   padding-right: 4px;
 }
 
-#vxpmepivoy .gt_column_spanner_outer:first-child {
+#vzkdbusbmd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vxpmepivoy .gt_column_spanner_outer:last-child {
+#vzkdbusbmd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vxpmepivoy .gt_column_spanner {
+#vzkdbusbmd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -609,11 +676,11 @@ data  %&gt;%
   width: 100%;
 }
 
-#vxpmepivoy .gt_spanner_row {
+#vzkdbusbmd .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#vxpmepivoy .gt_group_heading {
+#vzkdbusbmd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -639,7 +706,7 @@ data  %&gt;%
   text-align: left;
 }
 
-#vxpmepivoy .gt_empty_group_heading {
+#vzkdbusbmd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -654,15 +721,15 @@ data  %&gt;%
   vertical-align: middle;
 }
 
-#vxpmepivoy .gt_from_md > :first-child {
+#vzkdbusbmd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vxpmepivoy .gt_from_md > :last-child {
+#vzkdbusbmd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vxpmepivoy .gt_row {
+#vzkdbusbmd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -681,7 +748,7 @@ data  %&gt;%
   overflow-x: hidden;
 }
 
-#vxpmepivoy .gt_stub {
+#vzkdbusbmd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -694,7 +761,7 @@ data  %&gt;%
   padding-right: 5px;
 }
 
-#vxpmepivoy .gt_stub_row_group {
+#vzkdbusbmd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -708,15 +775,15 @@ data  %&gt;%
   vertical-align: top;
 }
 
-#vxpmepivoy .gt_row_group_first td {
+#vzkdbusbmd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#vxpmepivoy .gt_row_group_first th {
+#vzkdbusbmd .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#vxpmepivoy .gt_summary_row {
+#vzkdbusbmd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -726,16 +793,16 @@ data  %&gt;%
   padding-right: 5px;
 }
 
-#vxpmepivoy .gt_first_summary_row {
+#vzkdbusbmd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#vxpmepivoy .gt_first_summary_row.thick {
+#vzkdbusbmd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#vxpmepivoy .gt_last_summary_row {
+#vzkdbusbmd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -745,7 +812,7 @@ data  %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#vxpmepivoy .gt_grand_summary_row {
+#vzkdbusbmd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -755,7 +822,7 @@ data  %&gt;%
   padding-right: 5px;
 }
 
-#vxpmepivoy .gt_first_grand_summary_row {
+#vzkdbusbmd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -765,7 +832,7 @@ data  %&gt;%
   border-top-color: #D3D3D3;
 }
 
-#vxpmepivoy .gt_last_grand_summary_row_top {
+#vzkdbusbmd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -775,11 +842,11 @@ data  %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#vxpmepivoy .gt_striped {
+#vzkdbusbmd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vxpmepivoy .gt_table_body {
+#vzkdbusbmd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -788,7 +855,7 @@ data  %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#vxpmepivoy .gt_footnotes {
+#vzkdbusbmd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -802,7 +869,7 @@ data  %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#vxpmepivoy .gt_footnote {
+#vzkdbusbmd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -811,7 +878,7 @@ data  %&gt;%
   padding-right: 5px;
 }
 
-#vxpmepivoy .gt_sourcenotes {
+#vzkdbusbmd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -825,7 +892,7 @@ data  %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#vxpmepivoy .gt_sourcenote {
+#vzkdbusbmd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -833,63 +900,63 @@ data  %&gt;%
   padding-right: 5px;
 }
 
-#vxpmepivoy .gt_left {
+#vzkdbusbmd .gt_left {
   text-align: left;
 }
 
-#vxpmepivoy .gt_center {
+#vzkdbusbmd .gt_center {
   text-align: center;
 }
 
-#vxpmepivoy .gt_right {
+#vzkdbusbmd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vxpmepivoy .gt_font_normal {
+#vzkdbusbmd .gt_font_normal {
   font-weight: normal;
 }
 
-#vxpmepivoy .gt_font_bold {
+#vzkdbusbmd .gt_font_bold {
   font-weight: bold;
 }
 
-#vxpmepivoy .gt_font_italic {
+#vzkdbusbmd .gt_font_italic {
   font-style: italic;
 }
 
-#vxpmepivoy .gt_super {
+#vzkdbusbmd .gt_super {
   font-size: 65%;
 }
 
-#vxpmepivoy .gt_footnote_marks {
+#vzkdbusbmd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#vxpmepivoy .gt_asterisk {
+#vzkdbusbmd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#vxpmepivoy .gt_indent_1 {
+#vzkdbusbmd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#vxpmepivoy .gt_indent_2 {
+#vzkdbusbmd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#vxpmepivoy .gt_indent_3 {
+#vzkdbusbmd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#vxpmepivoy .gt_indent_4 {
+#vzkdbusbmd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#vxpmepivoy .gt_indent_5 {
+#vzkdbusbmd .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1094,12 +1161,14 @@ id="figure-1-shows-distributions-of-categorical-covariates-variables-with-prefer
 class="section level3">
 <h3>Figure 1 shows distributions of categorical covariates variables
 with prefer web or store</h3>
-<p>The set of bar graphs present a comparative analysis of consumer
-preferences between in-store (depicted in purple) and web-based shopping
-(depicted in yellow) across various demographic segments and behavioral
-factors. These segments and factors include: Educational level, marital
-status, household composition, costumer feedback behavior, marketing
-campaign receptiveness</p>
+<ul>
+<li>The set of bar graphs present a comparative analysis of consumer
+preferences between in-store (depicted in pink) and web-based shopping
+(depicted in blue) across various demographic segments and behavioral
+factors. These segments and factors include: <strong>Educational level,
+marital status, household composition, costumer feedback behavior,
+marketing campaign receptiveness</strong></li>
+</ul>
 <iframe height="480" width="100%" frameborder="no" src="https://marketingllyz.shinyapps.io/shiny/">
 </iframe>
 </div>
@@ -1108,18 +1177,21 @@ id="figure-2-shows-distributions-of-response-variable-total-amount-with-prefer-w
 class="section level3">
 <h3>Figure 2 shows distributions of response variable total amount with
 prefer web or store</h3>
-<p>The image shows a box plot with two categories: one for customers who
-prefer shopping in stores (red) and another for those who prefer
-shopping online (blue). A box plot displays the range of spending, the
-median (middle value), and any outliers (unusually high or low
-values).</p>
-<p>In this plot, the median spending for in-store shoppers is lower,
+<ul>
+<li><p><strong>The image shows a box plot with two categories:</strong>
+one for customers who prefer shopping in stores (pink) and another for
+those who prefer shopping online (blue). A box plot displays the range
+of spending, the median (middle value), and any outliers (unusually high
+or low values).</p></li>
+<li><p>In this plot, the median spending for in-store shoppers is lower,
 suggesting they generally spend less, but there are a few who spend a
-lot more, shown by the dots above the main box. For online shoppers, the
-median spending is higher and more in the middle of the range,
-indicating a more balanced spending pattern, without any outliers. This
-suggests that people who shop online tend to spend more evenly, while
-those who shop in stores have a wider range of spending habits.</p>
+lot more, shown by the dots above the main box.</p></li>
+<li><p>For online shoppers, the median spending is higher and more in
+the middle of the range, indicating a more balanced spending pattern,
+without any outliers. This suggests that people who shop online tend to
+spend more evenly, while those who shop in stores have a wider range of
+spending habits.</p></li>
+</ul>
 <div style="page-break-after: always;"></div>
 <pre class="r"><code>g1 &lt;- ggplot(data, aes(y=Total_amount)) +  
   geom_boxplot(aes(Prefer_web_or_store, fill = Prefer_web_or_store), alpha=0.8) + 
@@ -1130,18 +1202,20 @@ those who shop in stores have a wider range of spending habits.</p>
   theme_stata()
 
 plotly::ggplotly(g1)</code></pre>
-<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-13322ca34b473804ed52" style="width:652.8px;height:460.8px;"></div>
-<script type="application/json" data-for="htmlwidget-13322ca34b473804ed52">{"x":{"data":[{"x":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"y":[38,88,926,859,45,2088,36,67,324,868,863,2209,35,48,733,18,331,422,17,1005,13,10,160,716,49,30,18,714,1253,17,13,1029,910,49,1282,1210,1117,61,59,16,1753,17,20,22,33,1240,1196,80,30,940,28,34,75,25,39,1378,65,32,33,47,44,1495,1690,2126,978,1053,14,689,44,877,835,981,884,37,31,38,31,1021,1348,1385,56,57,1724,67,1672,1348,17,1293,930,1174,67,559,1562,818,1073,1112,53,51,1374,109,143,1574,916,978,2077,1795,90,1388,29,1688,177,1581,1635,433,57,606,770,653,11,606,834,242,63,1231,1065,1295,72,65,37,38,1497,1485,31,778,348,55,946,1366,1198,1289,22,1576,285,1182,1617,1047,63,410,1169,55,596,1043,382,68,1188,30,969,1117,530,730,54,156,114,37,1027,81,735,660,268,1932,2092,1135,65,64,35,661,43,25,776,1377,194,1482,29,1445,46,69,945,25,871,963,1495,943,1315,25,1375,127,22,972,1902,27,52,64,358,1380,131,42,318,37,2008,490,81,65,882,369,52,89,22,57,29,31,64,825,45,1319,507,1693,57,1612,66,1957,1093,50,526,16,350,240,80,19,64,62,36,257,795,1600,1127,34,20,11,1379,726,428,38,913,71,23,59,241,2059,151,270,215,1250,683,139,36,114,63,611,171,1190,1245,39,1478,1103,1152,46,973,573,63,79,69,23,636,65,266,195,895,1053,11,20,35,17,43,1722,1923,40,663,26,81,27,725,405,939,322,1315,45,1789,19,1157,449,1102,23,889,93,1924,1226,528,21,89,1179,55,488,1651,1574,1727,235,102,1291,70,120,411,521,1168,236,46,1158,165,36,1919,71,93,22,45,26,28,662,41,90,134,1188,21,1213,1029,1157,1008,11,704,576,1772,235,32,315,1526,1123,680,691,2114,1113,1346,1283,32,968,270,29,16,62,1230,57,33,75,506,62,1674,1621,305,55,57,41,18,47,55,903,112,22,233,96,967,67,76,15,99,42,819,2009,1345,1192,1958,1198,28,544,1627,1564,606,37,37,900,29,23,18,42,976,1148,63,64,53,312,1156,960,19,41,137,730,114,1173,46,1587,343,317,787,48,316,47,1427,544,833,1168,163,1364,183,41,121,44,48,1363,137,93,401,74,43,1242,78,597,1474,32,57,22,60,1435,72,34,1033,729,43,1008,1370,315,1438,612,1580,46,218,34,122,1572,990,1097,16,405,1027,1478,75,493,18,860,91,23,126,1178,318,88,49,265,60,1020,893,51,906,1461,507,1288,139,15,72,890,988,1072,1097,29,48,578,1084,518,89,16,1151,133,363,764,133,2047,45,121,1853,152,1598,1180,94,727,1371,1062,40,1099,37,746,405,32,393,10,486,52,39,805,1586,182,989,1677,222,156,899,2089,459,42,777,21,2114,2018,1536,55,162,1281,83,758,326,14,1313,2279,915,660,1804,48,96,1862,61,409,984,1423,27,10,67,629,20,237,30,178,43,976,1001,608,38,1650,795,1228,95,78,1167,794,1149,889,76,265,62,125,48,802,38,57,165,59,431,811,1305,1808,1187,541,66,1194,656,1540,50,63,274,77,448,44,54,189,475,49,1121,195,31,1678,64,149,231,728,1778,605,23,1065,844,296,140,1193,32,266,1910,41,1178,789,24,107,54,15,404,1313,1908,33,28,227,1555,861,805,1574,108,131,1493,89,447,939,797,60,1477,58,99,251,957,91,925,17,1724,235,317,1003,322,23,177,45,259,137,41,210,1095,95,42,702,1064,74,825,59,199,1600,1253,198,1048,574,62,670,990,655,454,54,1508,664,36,78,401,545,1146,222,1363,1717,2440,56,37,42,60,78,1250,779,61,1155,653,38,1131,38,1453,48,1538,30,125,1477,948,22,42,2116,1298,310,396,1511,1244,1079,209,1134,2087,1670,17,1091,2153,77,2349,534,81,92,46,51,868,990,441,1677,1862,334,65,267,210,1323,63,134,17,87,217,1034,28,2008,130,46,1064,1757,1738,1006,1127,1171,92,133,186,612,1722,96,24,1064,1869,15,57,450,461,747,406,928,642,16,943,907,1198,86,1230,1638,25,24,48,15,47,106,18,1091,84,48,50,270,1234,1026,301,1068,1513,1004,904,41,170,106,22,1156,1086,34,72,964,1383,225,793,470,80,495,938,235,971,641,17,55,1174,25,155,20,1616,1034,96,22,17,680,542,50,1269,841,906,44,690,54,2525,290,1672,43,1066,1798,137,545,15,1105,693,66,530,49,169,299,221,25,155,892,90,61,95,341,47,401,1410,40,63,2352,1334,634,41,1631,34,152,68,71,1538,711,1722,68,16,882,10,973,227,992,210,77,1289,2013,211,641,1092,601,49,260,1095,244,928,15,232,84,282,894,78,31,34,1750,1833,1286,823,20,54,362,2130,1229,55,1511,46,44,32,67,2346,825,17,2052,496,15,902,198,21,76,833,47,53,20,37,1603,2091,1101,1533,1501,1189,36,404,71,1572,995,41,10,304,37,1754,53,1643,694,688,1315,21,31,67,170,25,746,32,594,1080,22,57,974,1149,153,1220,926,320,264,2157,85,69,112,30,326,1415,31,1483,877,11,2034,1991,1686,32,69,252,54,964,1327,68,60,55,393,563,30,1005,1125,859,42,2252,493,971,116,1092,1382,28,1033,882,2231,39,22,48,63,44,38,81,72,20,789,622,48,20,1453,55,55,1366,1149,43,92,72,794,968,1165,797,1690,20,2074,122,461,47,144,61,12,8,817,1371,119,1250,969,23,19,1382,84,37,43,398,34,1650,823,18,1921,185,156,70,907,18,1930,2283,1797,1319,20,914,1502,1338,27,1507,57,525,9,23,68,131,882,660,637,388,424,47,756,30,937,13,367,174,92,40,275,1115,1662,562,1024,35,1042,16,819,32,69,63,860,1365,13,757,125,332,1598,2524,84,75,78,55,14,957,1366,436,1956,55,20,302,2257,42,1049,48,685,39,43,1103,1515,1039,1596,38,34,1060,946,28,1662,46,48,515,733,2126,2069,72,55,801,236,80,606,75,507,68,49,397,1128,306,976,1028,18,46,51,1263,2525,1564,23,92,416,85,24,137,21,70,909,102,1735,156,24,1182,1280,183,1161,91,414,174,1633,901,38,455,52,15,38,49,43,42,1089,162,1272,1173,816,778,134,157,561,1336,1682,463,1130,20,1215,1544,138,1012,1766,45,35,144,1734,823,1138,1429,1371,1141,44,21,506,198,57,576,88,31,27,16,311,2211,140,122,22,263,442,147,443,1958,174,2217,1779,25,809,116,484,858,331,25,13,41,16,92,52,76,29,283,747,1192,813,1941,138,1655,23,434,37,21,22,78,79,265,1792,1305,46,25,46,71,100,772,868,1586,293,265,392,1109,639,79,82,692,1392,44,50,467,820,158,1211,1575,1208,43,61,1001,1157,54,17,1615,1034,1088,708,1244,41,1174,93,100,1424,98,48,519,715,37,653,745,602,26,102,176,1597,1366,410,961,1518,56,22,400,26,350,1216,275,40,1367,264,2053,1376,45,976,51,1456,75,57,140,497,237,2006,35,1021,22,1376,396,1013,57,1038,1573,28,123,13,132,732,66,1631,608,1822,45,8,43,1931,461,59,1169,976,20,25,185,146,22,44,94,81,24,252,165,122,300,88,54,1782,1338,44,31,66,174,28,731,274,76,62,414,1565,29,94,1338,1092,1479,54,1179,1199,873,433,34,2043,1893,44,1588,257,40,1143,125,69,40,1016,907,1331,1169,46,1644,59,17,1853,777,37,141,1428,1633,795,12,1574,929,849,85,199,1052,54,43,53,1540,1623,45,1435,1180,16,52,1234,15,34,470,1438,1401,51,736,135,103,468,1536,1045,1049,22,424,30,1555,38,1241,843,172],"hoverinfo":"y","type":"box","fillcolor":"rgba(251,180,174,0.8)","marker":{"opacity":null,"outliercolor":"rgba(0,0,0,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"},"size":5.6692913385826778},"line":{"color":"rgba(51,51,51,1)","width":1.8897637795275593},"name":"store","legendgroup":"store","showlegend":true,"xaxis":"x","yaxis":"y","frame":null},{"x":[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],"y":[1617,587,279,902,263,106,590,169,46,49,45,1159,310,1440,635,96,209,1782,99,66,1730,50,86,444,1040,257,343,446,30,436,272,46,1608,79,315,81,390,902,1395,1658,148,145,751,122,55,106,813,2119,377,441,1702,5,1020,91,518,1082,1071,499,60,1076,467,103,1274,467,458,26,39,661,438,192,1890,502,100,692,1001,504,79,769,182,1106,1033,372,162,1957,1853,43,311,606,160,1743,908,542,407,2086,1120,385,758,187,761,145,850,436,1820,608,101,551,507,747,577,368,26,74,205,446,309,101,2092,682,87,58,463,632,61,95,72,2486,981,562,1237,1727,995,191,39,312,710,347,434,211,128,138,460,429,297,193,1381,306,1152,564,860,928,1706,1895,233,70,1139,421,1638,78,319,83,1062,68,76,119,1835,1318,1919,246,610,191,289,69,99,1990,107,1179,162,241,485,117,1730,65,91,1761,467,694,497,1270,263,535,68,1150,70,369,46,177,279,414,1804,449,49,264,227,244,482,240,1615,1443,1135,1867,57,473,185,81,575,576,397,1443,69,50,1588,58,137,373,1196,425,316,57,213,662,1009,836,491,1102,299,1455,1390,254,1531,1471,6,64,1150,800,424,1101,159,189,161,211,845,103,492,275,90,586,184,936,67,380,1901,231,1504,564,187,1307,486,69,908,2194,576,279,599,1507,654,902,30,1478,365,79,137,1314,835,58,167,94,100,406,1211,62,728,450,273,66,313,382,224,546,767,53,152,172,1033,928,102,269,209,102,1175,68,1307,630,1044,966,957,270,278,121,312,1161,1232,636,1004,1442,614,294,444,187,135,46,637,766,731,467,424,749,815,56,633,1019,357,1277,1185,965,869,900,70,71,296,129,1400,494,311,103,480,500,284,1472,411,1335,373,73,120,1147,97,1067,369,339,1258,149,1459,395,1215,573,1497,486,426,96,444,1226,397,1323,269,330,119,384,581,928,263,1443,960,1341,656,353,587,68,222,1396,1048,797,6,46,1525,203,793,73,684,411,80,289,1812,1923,612,1464,1198,820,396,165,684,1919,684,1241,271,178,120,277,335,269,61,96,993,1711,917,318,253,49,1736,930,167,677,570,310,1120,725,47,577,76,902,1826,521,1449,120,458,1191,792,92,102,216,932,71,879,361,473,1319,685,763,506,529,1947,1695,184,1529,53,411,73,129,44,279,114,586,215,424,219,433,1816,811,1078,377,211,854,1383,999,1104,1825,557,103,1918,354,415,595,401,1910,359,86,8,653,63,564,101,266,180,953,145,371,792,103,561,77,546,493,1829,1691,84,895,325,223,734,54,201,1282,275,568,1461,1968,417,769,188,1336,727,180,319,209,732,66,1143,496,1957,1428,70,147,268,523,1416,231,258,556,35,874,393,960,61,2302,1815,1198,255,401,2302,1665,413,63,1574,664,122,1213,32,8,131,44,9,527,62,44,444,418,53,1401,775,981,1685,358,84,443,460,72,1680,311,318,1528,638,173,367,99,704,1085,395,1338,497,1001,112,981,542,101,1828,115,908,223,1073,369,258,982,415,615,1631,133,1149,724,270,38,586,1566,45,1440,1512,832,425,734,1658,839,183,679,1676,1701,1899,351,65,120,1870,62,467,175,1482,437,798,1334,416,1264,324,1529,292,1526,129,874,1490,415,106,1217,103,1260,1101,54,59],"hoverinfo":"y","type":"box","fillcolor":"rgba(179,205,227,0.8)","marker":{"opacity":null,"outliercolor":"rgba(0,0,0,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"},"size":5.6692913385826778},"line":{"color":"rgba(51,51,51,1)","width":1.8897637795275593},"name":"web","legendgroup":"web","showlegend":true,"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":38.848000000000006,"r":22.848000000000006,"b":56.396997563790976,"l":56.396997563790976},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(234,242,243,1)","font":{"color":"rgba(0,0,0,1)","family":"sans","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,2.6000000000000001],"tickmode":"array","ticktext":["store","web"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["store","web"],"nticks":null,"ticks":"outside","tickcolor":"rgba(0,0,0,1)","ticklen":6.9818181818181806,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(0,0,0,1)","family":"sans","size":13.283589690986393},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176002,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"Total amount","font":{"color":"rgba(0,0,0,1)","family":"sans","size":13.283589690986393}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-121,2651],"tickmode":"array","ticktext":["0","500","1000","1500","2000","2500"],"tickvals":[0,500,1000,1499.9999999999998,2000,2500],"categoryorder":"array","categoryarray":["0","500","1000","1500","2000","2500"],"nticks":null,"ticks":"outside","tickcolor":"rgba(0,0,0,1)","ticklen":6.9818181818181815,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(0,0,0,1)","family":"sans","size":13.283589690986393},"tickangle":-90,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176002,"showgrid":true,"gridcolor":"rgba(234,242,243,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Total_amount","font":{"color":"rgba(0,0,0,1)","family":"sans","size":13.283589690986393}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"rgba(0,0,0,1)","borderwidth":1.2598425196850394,"font":{"color":"rgba(0,0,0,1)","family":"sans","size":13.283589690986393},"title":{"text":"Prefer web or store","font":{"color":"rgba(30,45,83,1)","family":"sans","size":18.597102081347259}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"85226dea463a":{"y":{},"x":{},"fill":{},"type":"box"}},"cur_data":"85226dea463a","visdat":{"85226dea463a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-b212cdffa7b148b7cd74" style="width:652.8px;height:460.8px;"></div>
+<script type="application/json" data-for="htmlwidget-b212cdffa7b148b7cd74">{"x":{"data":[{"x":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"y":[38,88,926,859,45,2088,36,67,324,868,863,2209,35,48,733,18,331,422,17,1005,13,10,160,716,49,30,18,714,1253,17,13,1029,910,49,1282,1210,1117,61,59,16,1753,17,20,22,33,1240,1196,80,30,940,28,34,75,25,39,1378,65,32,33,47,44,1495,1690,2126,978,1053,14,689,44,877,835,981,884,37,31,38,31,1021,1348,1385,56,57,1724,67,1672,1348,17,1293,930,1174,67,559,1562,818,1073,1112,53,51,1374,109,143,1574,916,978,2077,1795,90,1388,29,1688,177,1581,1635,433,57,606,770,653,11,606,834,242,63,1231,1065,1295,72,65,37,38,1497,1485,31,778,348,55,946,1366,1198,1289,22,1576,285,1182,1617,1047,63,410,1169,55,596,1043,382,68,1188,30,969,1117,530,730,54,156,114,37,1027,81,735,660,268,1932,2092,1135,65,64,35,661,43,25,776,1377,194,1482,29,1445,46,69,945,25,871,963,1495,943,1315,25,1375,127,22,972,1902,27,52,64,358,1380,131,42,318,37,2008,490,81,65,882,369,52,89,22,57,29,31,64,825,45,1319,507,1693,57,1612,66,1957,1093,50,526,16,350,240,80,19,64,62,36,257,795,1600,1127,34,20,11,1379,726,428,38,913,71,23,59,241,2059,151,270,215,1250,683,139,36,114,63,611,171,1190,1245,39,1478,1103,1152,46,973,573,63,79,69,23,636,65,266,195,895,1053,11,20,35,17,43,1722,1923,40,663,26,81,27,725,405,939,322,1315,45,1789,19,1157,449,1102,23,889,93,1924,1226,528,21,89,1179,55,488,1651,1574,1727,235,102,1291,70,120,411,521,1168,236,46,1158,165,36,1919,71,93,22,45,26,28,662,41,90,134,1188,21,1213,1029,1157,1008,11,704,576,1772,235,32,315,1526,1123,680,691,2114,1113,1346,1283,32,968,270,29,16,62,1230,57,33,75,506,62,1674,1621,305,55,57,41,18,47,55,903,112,22,233,96,967,67,76,15,99,42,819,2009,1345,1192,1958,1198,28,544,1627,1564,606,37,37,900,29,23,18,42,976,1148,63,64,53,312,1156,960,19,41,137,730,114,1173,46,1587,343,317,787,48,316,47,1427,544,833,1168,163,1364,183,41,121,44,48,1363,137,93,401,74,43,1242,78,597,1474,32,57,22,60,1435,72,34,1033,729,43,1008,1370,315,1438,612,1580,46,218,34,122,1572,990,1097,16,405,1027,1478,75,493,18,860,91,23,126,1178,318,88,49,265,60,1020,893,51,906,1461,507,1288,139,15,72,890,988,1072,1097,29,48,578,1084,518,89,16,1151,133,363,764,133,2047,45,121,1853,152,1598,1180,94,727,1371,1062,40,1099,37,746,405,32,393,10,486,52,39,805,1586,182,989,1677,222,156,899,2089,459,42,777,21,2114,2018,1536,55,162,1281,83,758,326,14,1313,2279,915,660,1804,48,96,1862,61,409,984,1423,27,10,67,629,20,237,30,178,43,976,1001,608,38,1650,795,1228,95,78,1167,794,1149,889,76,265,62,125,48,802,38,57,165,59,431,811,1305,1808,1187,541,66,1194,656,1540,50,63,274,77,448,44,54,189,475,49,1121,195,31,1678,64,149,231,728,1778,605,23,1065,844,296,140,1193,32,266,1910,41,1178,789,24,107,54,15,404,1313,1908,33,28,227,1555,861,805,1574,108,131,1493,89,447,939,797,60,1477,58,99,251,957,91,925,17,1724,235,317,1003,322,23,177,45,259,137,41,210,1095,95,42,702,1064,74,825,59,199,1600,1253,198,1048,574,62,670,990,655,454,54,1508,664,36,78,401,545,1146,222,1363,1717,2440,56,37,42,60,78,1250,779,61,1155,653,38,1131,38,1453,48,1538,30,125,1477,948,22,42,2116,1298,310,396,1511,1244,1079,209,1134,2087,1670,17,1091,2153,77,2349,534,81,92,46,51,868,990,441,1677,1862,334,65,267,210,1323,63,134,17,87,217,1034,28,2008,130,46,1064,1757,1738,1006,1127,1171,92,133,186,612,1722,96,24,1064,1869,15,57,450,461,747,406,928,642,16,943,907,1198,86,1230,1638,25,24,48,15,47,106,18,1091,84,48,50,270,1234,1026,301,1068,1513,1004,904,41,170,106,22,1156,1086,34,72,964,1383,225,793,470,80,495,938,235,971,641,17,55,1174,25,155,20,1616,1034,96,22,17,680,542,50,1269,841,906,44,690,54,2525,290,1672,43,1066,1798,137,545,15,1105,693,66,530,49,169,299,221,25,155,892,90,61,95,341,47,401,1410,40,63,2352,1334,634,41,1631,34,152,68,71,1538,711,1722,68,16,882,10,973,227,992,210,77,1289,2013,211,641,1092,601,49,260,1095,244,928,15,232,84,282,894,78,31,34,1750,1833,1286,823,20,54,362,2130,1229,55,1511,46,44,32,67,2346,825,17,2052,496,15,902,198,21,76,833,47,53,20,37,1603,2091,1101,1533,1501,1189,36,404,71,1572,995,41,10,304,37,1754,53,1643,694,688,1315,21,31,67,170,25,746,32,594,1080,22,57,974,1149,153,1220,926,320,264,2157,85,69,112,30,326,1415,31,1483,877,11,2034,1991,1686,32,69,252,54,964,1327,68,60,55,393,563,30,1005,1125,859,42,2252,493,971,116,1092,1382,28,1033,882,2231,39,22,48,63,44,38,81,72,20,789,622,48,20,1453,55,55,1366,1149,43,92,72,794,968,1165,797,1690,20,2074,122,461,47,144,61,12,8,817,1371,119,1250,969,23,19,1382,84,37,43,398,34,1650,823,18,1921,185,156,70,907,18,1930,2283,1797,1319,20,914,1502,1338,27,1507,57,525,9,23,68,131,882,660,637,388,424,47,756,30,937,13,367,174,92,40,275,1115,1662,562,1024,35,1042,16,819,32,69,63,860,1365,13,757,125,332,1598,2524,84,75,78,55,14,957,1366,436,1956,55,20,302,2257,42,1049,48,685,39,43,1103,1515,1039,1596,38,34,1060,946,28,1662,46,48,515,733,2126,2069,72,55,801,236,80,606,75,507,68,49,397,1128,306,976,1028,18,46,51,1263,2525,1564,23,92,416,85,24,137,21,70,909,102,1735,156,24,1182,1280,183,1161,91,414,174,1633,901,38,455,52,15,38,49,43,42,1089,162,1272,1173,816,778,134,157,561,1336,1682,463,1130,20,1215,1544,138,1012,1766,45,35,144,1734,823,1138,1429,1371,1141,44,21,506,198,57,576,88,31,27,16,311,2211,140,122,22,263,442,147,443,1958,174,2217,1779,25,809,116,484,858,331,25,13,41,16,92,52,76,29,283,747,1192,813,1941,138,1655,23,434,37,21,22,78,79,265,1792,1305,46,25,46,71,100,772,868,1586,293,265,392,1109,639,79,82,692,1392,44,50,467,820,158,1211,1575,1208,43,61,1001,1157,54,17,1615,1034,1088,708,1244,41,1174,93,100,1424,98,48,519,715,37,653,745,602,26,102,176,1597,1366,410,961,1518,56,22,400,26,350,1216,275,40,1367,264,2053,1376,45,976,51,1456,75,57,140,497,237,2006,35,1021,22,1376,396,1013,57,1038,1573,28,123,13,132,732,66,1631,608,1822,45,8,43,1931,461,59,1169,976,20,25,185,146,22,44,94,81,24,252,165,122,300,88,54,1782,1338,44,31,66,174,28,731,274,76,62,414,1565,29,94,1338,1092,1479,54,1179,1199,873,433,34,2043,1893,44,1588,257,40,1143,125,69,40,1016,907,1331,1169,46,1644,59,17,1853,777,37,141,1428,1633,795,12,1574,929,849,85,199,1052,54,43,53,1540,1623,45,1435,1180,16,52,1234,15,34,470,1438,1401,51,736,135,103,468,1536,1045,1049,22,424,30,1555,38,1241,843,172],"hoverinfo":"y","type":"box","fillcolor":"rgba(251,180,174,0.8)","marker":{"opacity":null,"outliercolor":"rgba(0,0,0,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"},"size":5.6692913385826778},"line":{"color":"rgba(51,51,51,1)","width":1.8897637795275593},"name":"store","legendgroup":"store","showlegend":true,"xaxis":"x","yaxis":"y","frame":null},{"x":[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],"y":[1617,587,279,902,263,106,590,169,46,49,45,1159,310,1440,635,96,209,1782,99,66,1730,50,86,444,1040,257,343,446,30,436,272,46,1608,79,315,81,390,902,1395,1658,148,145,751,122,55,106,813,2119,377,441,1702,5,1020,91,518,1082,1071,499,60,1076,467,103,1274,467,458,26,39,661,438,192,1890,502,100,692,1001,504,79,769,182,1106,1033,372,162,1957,1853,43,311,606,160,1743,908,542,407,2086,1120,385,758,187,761,145,850,436,1820,608,101,551,507,747,577,368,26,74,205,446,309,101,2092,682,87,58,463,632,61,95,72,2486,981,562,1237,1727,995,191,39,312,710,347,434,211,128,138,460,429,297,193,1381,306,1152,564,860,928,1706,1895,233,70,1139,421,1638,78,319,83,1062,68,76,119,1835,1318,1919,246,610,191,289,69,99,1990,107,1179,162,241,485,117,1730,65,91,1761,467,694,497,1270,263,535,68,1150,70,369,46,177,279,414,1804,449,49,264,227,244,482,240,1615,1443,1135,1867,57,473,185,81,575,576,397,1443,69,50,1588,58,137,373,1196,425,316,57,213,662,1009,836,491,1102,299,1455,1390,254,1531,1471,6,64,1150,800,424,1101,159,189,161,211,845,103,492,275,90,586,184,936,67,380,1901,231,1504,564,187,1307,486,69,908,2194,576,279,599,1507,654,902,30,1478,365,79,137,1314,835,58,167,94,100,406,1211,62,728,450,273,66,313,382,224,546,767,53,152,172,1033,928,102,269,209,102,1175,68,1307,630,1044,966,957,270,278,121,312,1161,1232,636,1004,1442,614,294,444,187,135,46,637,766,731,467,424,749,815,56,633,1019,357,1277,1185,965,869,900,70,71,296,129,1400,494,311,103,480,500,284,1472,411,1335,373,73,120,1147,97,1067,369,339,1258,149,1459,395,1215,573,1497,486,426,96,444,1226,397,1323,269,330,119,384,581,928,263,1443,960,1341,656,353,587,68,222,1396,1048,797,6,46,1525,203,793,73,684,411,80,289,1812,1923,612,1464,1198,820,396,165,684,1919,684,1241,271,178,120,277,335,269,61,96,993,1711,917,318,253,49,1736,930,167,677,570,310,1120,725,47,577,76,902,1826,521,1449,120,458,1191,792,92,102,216,932,71,879,361,473,1319,685,763,506,529,1947,1695,184,1529,53,411,73,129,44,279,114,586,215,424,219,433,1816,811,1078,377,211,854,1383,999,1104,1825,557,103,1918,354,415,595,401,1910,359,86,8,653,63,564,101,266,180,953,145,371,792,103,561,77,546,493,1829,1691,84,895,325,223,734,54,201,1282,275,568,1461,1968,417,769,188,1336,727,180,319,209,732,66,1143,496,1957,1428,70,147,268,523,1416,231,258,556,35,874,393,960,61,2302,1815,1198,255,401,2302,1665,413,63,1574,664,122,1213,32,8,131,44,9,527,62,44,444,418,53,1401,775,981,1685,358,84,443,460,72,1680,311,318,1528,638,173,367,99,704,1085,395,1338,497,1001,112,981,542,101,1828,115,908,223,1073,369,258,982,415,615,1631,133,1149,724,270,38,586,1566,45,1440,1512,832,425,734,1658,839,183,679,1676,1701,1899,351,65,120,1870,62,467,175,1482,437,798,1334,416,1264,324,1529,292,1526,129,874,1490,415,106,1217,103,1260,1101,54,59],"hoverinfo":"y","type":"box","fillcolor":"rgba(179,205,227,0.8)","marker":{"opacity":null,"outliercolor":"rgba(0,0,0,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"},"size":5.6692913385826778},"line":{"color":"rgba(51,51,51,1)","width":1.8897637795275593},"name":"web","legendgroup":"web","showlegend":true,"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":38.848000000000006,"r":22.848000000000006,"b":56.396997563790976,"l":56.396997563790976},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(234,242,243,1)","font":{"color":"rgba(0,0,0,1)","family":"sans","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,2.6000000000000001],"tickmode":"array","ticktext":["store","web"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["store","web"],"nticks":null,"ticks":"outside","tickcolor":"rgba(0,0,0,1)","ticklen":6.9818181818181806,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(0,0,0,1)","family":"sans","size":13.283589690986393},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176002,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"Total amount","font":{"color":"rgba(0,0,0,1)","family":"sans","size":13.283589690986393}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-121,2651],"tickmode":"array","ticktext":["0","500","1000","1500","2000","2500"],"tickvals":[0,500,1000,1499.9999999999998,2000,2500],"categoryorder":"array","categoryarray":["0","500","1000","1500","2000","2500"],"nticks":null,"ticks":"outside","tickcolor":"rgba(0,0,0,1)","ticklen":6.9818181818181815,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(0,0,0,1)","family":"sans","size":13.283589690986393},"tickangle":-90,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176002,"showgrid":true,"gridcolor":"rgba(234,242,243,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Total_amount","font":{"color":"rgba(0,0,0,1)","family":"sans","size":13.283589690986393}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"rgba(0,0,0,1)","borderwidth":1.2598425196850394,"font":{"color":"rgba(0,0,0,1)","family":"sans","size":13.283589690986393},"title":{"text":"Prefer web or store","font":{"color":"rgba(30,45,83,1)","family":"sans","size":18.597102081347259}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"e2c85d951c76":{"y":{},"x":{},"fill":{},"type":"box"}},"cur_data":"e2c85d951c76","visdat":{"e2c85d951c76":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div
 id="figure-3-shows-distributions-of-continous-covariates-variables-with-prefer-web-or-store"
 class="section level3">
 <h3>Figure 3 shows distributions of continous covariates variables with
 prefer web or store</h3>
-<p>The image shows four kernel density plots comparing the preferences
-for shopping in-store (shown in red) versus online (shown in blue)
-across different customer characteristics: Age, yearly income, web
-visits monthly, recency</p>
+<ul>
+<li>The image shows four kernel density plots comparing the preferences
+for shopping in-store (shown in pink) versus online (shown in blue)
+across different customer characteristics: <strong>Age, yearly income,
+web visits monthly, recency</strong></li>
+</ul>
 <pre class="r"><code>library(ggplot2)
 library(plotly)
 library(cowplot) 
@@ -1180,7 +1254,8 @@ plot_grid(g5, g2, g4, g3, nrow = 2)</code></pre>
 <h1>Models</h1>
 <div id="propensity-score-matching" class="section level2">
 <h2>Propensity score matching</h2>
-<p>Propensity score matching is intended to help us find treatment and
+<ul>
+<li>Propensity score matching is intended to help us find treatment and
 control groups, so that we could make causal inference on observational
 dataset. Propensity score matching is a valuable technique for analyzing
 observational data. It significantly improves balance in the data by
@@ -1188,7 +1263,8 @@ ensuring that matched groups are more comparable. This improved balance
 is evident when comparing the state of the data before and after
 matching. Once propensity score matching has been applied, the data can
 be further analyzed using a linear regression model, allowing for more
-accurate and reliable insights.</p>
+accurate and reliable insights.</li>
+</ul>
 <pre class="r"><code>library(Matching)
 # Estimate the propensity model
 data2 &lt;- data
@@ -1200,23 +1276,23 @@ glm1  &lt;- glm(Prefer_web_or_store ~ Education + Marital_Status+ Income+ Kidhom
 library(gtsummary)
 
 gtsummary::tbl_regression(glm1)</code></pre>
-<div id="ntnnnkgbrl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ntnnnkgbrl table {
+<div id="ssnhrixnuw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ssnhrixnuw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ntnnnkgbrl thead, #ntnnnkgbrl tbody, #ntnnnkgbrl tfoot, #ntnnnkgbrl tr, #ntnnnkgbrl td, #ntnnnkgbrl th {
+#ssnhrixnuw thead, #ssnhrixnuw tbody, #ssnhrixnuw tfoot, #ssnhrixnuw tr, #ssnhrixnuw td, #ssnhrixnuw th {
   border-style: none;
 }
 
-#ntnnnkgbrl p {
+#ssnhrixnuw p {
   margin: 0;
   padding: 0;
 }
 
-#ntnnnkgbrl .gt_table {
+#ssnhrixnuw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1242,12 +1318,12 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#ntnnnkgbrl .gt_caption {
+#ssnhrixnuw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ntnnnkgbrl .gt_title {
+#ssnhrixnuw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1259,7 +1335,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-bottom-width: 0;
 }
 
-#ntnnnkgbrl .gt_subtitle {
+#ssnhrixnuw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1271,7 +1347,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-top-width: 0;
 }
 
-#ntnnnkgbrl .gt_heading {
+#ssnhrixnuw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1283,13 +1359,13 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ntnnnkgbrl .gt_bottom_border {
+#ssnhrixnuw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ntnnnkgbrl .gt_col_headings {
+#ssnhrixnuw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1304,7 +1380,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ntnnnkgbrl .gt_col_heading {
+#ssnhrixnuw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1324,7 +1400,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   overflow-x: hidden;
 }
 
-#ntnnnkgbrl .gt_column_spanner_outer {
+#ssnhrixnuw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1336,15 +1412,15 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 4px;
 }
 
-#ntnnnkgbrl .gt_column_spanner_outer:first-child {
+#ssnhrixnuw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ntnnnkgbrl .gt_column_spanner_outer:last-child {
+#ssnhrixnuw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ntnnnkgbrl .gt_column_spanner {
+#ssnhrixnuw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1356,11 +1432,11 @@ gtsummary::tbl_regression(glm1)</code></pre>
   width: 100%;
 }
 
-#ntnnnkgbrl .gt_spanner_row {
+#ssnhrixnuw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ntnnnkgbrl .gt_group_heading {
+#ssnhrixnuw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1386,7 +1462,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   text-align: left;
 }
 
-#ntnnnkgbrl .gt_empty_group_heading {
+#ssnhrixnuw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1401,15 +1477,15 @@ gtsummary::tbl_regression(glm1)</code></pre>
   vertical-align: middle;
 }
 
-#ntnnnkgbrl .gt_from_md > :first-child {
+#ssnhrixnuw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ntnnnkgbrl .gt_from_md > :last-child {
+#ssnhrixnuw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ntnnnkgbrl .gt_row {
+#ssnhrixnuw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1428,7 +1504,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   overflow-x: hidden;
 }
 
-#ntnnnkgbrl .gt_stub {
+#ssnhrixnuw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1441,7 +1517,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 5px;
 }
 
-#ntnnnkgbrl .gt_stub_row_group {
+#ssnhrixnuw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1455,15 +1531,15 @@ gtsummary::tbl_regression(glm1)</code></pre>
   vertical-align: top;
 }
 
-#ntnnnkgbrl .gt_row_group_first td {
+#ssnhrixnuw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ntnnnkgbrl .gt_row_group_first th {
+#ssnhrixnuw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ntnnnkgbrl .gt_summary_row {
+#ssnhrixnuw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1473,16 +1549,16 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 5px;
 }
 
-#ntnnnkgbrl .gt_first_summary_row {
+#ssnhrixnuw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ntnnnkgbrl .gt_first_summary_row.thick {
+#ssnhrixnuw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ntnnnkgbrl .gt_last_summary_row {
+#ssnhrixnuw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1492,7 +1568,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ntnnnkgbrl .gt_grand_summary_row {
+#ssnhrixnuw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1502,7 +1578,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 5px;
 }
 
-#ntnnnkgbrl .gt_first_grand_summary_row {
+#ssnhrixnuw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1512,7 +1588,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#ntnnnkgbrl .gt_last_grand_summary_row_top {
+#ssnhrixnuw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1522,11 +1598,11 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ntnnnkgbrl .gt_striped {
+#ssnhrixnuw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ntnnnkgbrl .gt_table_body {
+#ssnhrixnuw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1535,7 +1611,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ntnnnkgbrl .gt_footnotes {
+#ssnhrixnuw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1549,7 +1625,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ntnnnkgbrl .gt_footnote {
+#ssnhrixnuw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1558,7 +1634,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 5px;
 }
 
-#ntnnnkgbrl .gt_sourcenotes {
+#ssnhrixnuw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1572,7 +1648,7 @@ gtsummary::tbl_regression(glm1)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ntnnnkgbrl .gt_sourcenote {
+#ssnhrixnuw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1580,63 +1656,63 @@ gtsummary::tbl_regression(glm1)</code></pre>
   padding-right: 5px;
 }
 
-#ntnnnkgbrl .gt_left {
+#ssnhrixnuw .gt_left {
   text-align: left;
 }
 
-#ntnnnkgbrl .gt_center {
+#ssnhrixnuw .gt_center {
   text-align: center;
 }
 
-#ntnnnkgbrl .gt_right {
+#ssnhrixnuw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ntnnnkgbrl .gt_font_normal {
+#ssnhrixnuw .gt_font_normal {
   font-weight: normal;
 }
 
-#ntnnnkgbrl .gt_font_bold {
+#ssnhrixnuw .gt_font_bold {
   font-weight: bold;
 }
 
-#ntnnnkgbrl .gt_font_italic {
+#ssnhrixnuw .gt_font_italic {
   font-style: italic;
 }
 
-#ntnnnkgbrl .gt_super {
+#ssnhrixnuw .gt_super {
   font-size: 65%;
 }
 
-#ntnnnkgbrl .gt_footnote_marks {
+#ssnhrixnuw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ntnnnkgbrl .gt_asterisk {
+#ssnhrixnuw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ntnnnkgbrl .gt_indent_1 {
+#ssnhrixnuw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ntnnnkgbrl .gt_indent_2 {
+#ssnhrixnuw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ntnnnkgbrl .gt_indent_3 {
+#ssnhrixnuw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ntnnnkgbrl .gt_indent_4 {
+#ssnhrixnuw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ntnnnkgbrl .gt_indent_5 {
+#ssnhrixnuw .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1756,20 +1832,23 @@ rr  &lt;- Match(Y=Y, Tr=Tr, X=X, M=1)
 </div>
 <div id="linear-regression-model" class="section level2">
 <h2>Linear regression model</h2>
-<p>Hypotheses:</p>
-<p>we are studying if people purchase in different ways will affect
+<p><strong>Hypotheses:</strong></p>
+<p>We are studying if people purchase in different ways will affect
 their money spend on grocery. Here is how two sample hypothesis test
 works:</p>
-<p>-the null hypothesis <span class="math inline">\(H_0\)</span> is
+<ul>
+<li><p>the null hypothesis <span class="math inline">\(H_0\)</span> is
 <span class="math inline">\(H_0: \mu_{store} \ge \mu_{web}\)</span>; it
 means the population average of amount spent for people who purchased in
-store is greater and equal to those on website.</p>
-<p>-the alternative hypothesis <span class="math inline">\(H_a\)</span>
-is <span class="math inline">\(H_1: \mu_{store} &lt; \mu_{web}\)</span>;
-it means the population average of amount spent for people who purchased
-in store is less than those on website. <span
-class="math inline">\(\mu_{web}\)</span> representing the population
-mean of amount spend for people who purchased on website.</p>
+store is greater and equal to those on website.</p></li>
+<li><p>The alternative hypothesis <span
+class="math inline">\(H_a\)</span> is <span class="math inline">\(H_1:
+\mu_{store} &lt; \mu_{web}\)</span>; it means the population average of
+amount spent for people who purchased in store is less than those on
+website. <span class="math inline">\(\mu_{web}\)</span> representing the
+population mean of amount spend for people who purchased on
+website.</p></li>
+</ul>
 <p>We will calculate test statistics by using R code. And then simulate
 the difference in sample mean of amount spend between people who
 purchased online and who purchased in store, assume the population mean
@@ -1791,23 +1870,23 @@ compared with who prefer web shopping online.</p>
 model &lt;- lm(Total_amount ~ ., data = data3)
 
 gtsummary::tbl_regression(model )</code></pre>
-<div id="qkqgxyptbn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qkqgxyptbn table {
+<div id="apddvwewzo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#apddvwewzo table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qkqgxyptbn thead, #qkqgxyptbn tbody, #qkqgxyptbn tfoot, #qkqgxyptbn tr, #qkqgxyptbn td, #qkqgxyptbn th {
+#apddvwewzo thead, #apddvwewzo tbody, #apddvwewzo tfoot, #apddvwewzo tr, #apddvwewzo td, #apddvwewzo th {
   border-style: none;
 }
 
-#qkqgxyptbn p {
+#apddvwewzo p {
   margin: 0;
   padding: 0;
 }
 
-#qkqgxyptbn .gt_table {
+#apddvwewzo .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1833,12 +1912,12 @@ gtsummary::tbl_regression(model )</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#qkqgxyptbn .gt_caption {
+#apddvwewzo .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qkqgxyptbn .gt_title {
+#apddvwewzo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1850,7 +1929,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-bottom-width: 0;
 }
 
-#qkqgxyptbn .gt_subtitle {
+#apddvwewzo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1862,7 +1941,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-top-width: 0;
 }
 
-#qkqgxyptbn .gt_heading {
+#apddvwewzo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1874,13 +1953,13 @@ gtsummary::tbl_regression(model )</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#qkqgxyptbn .gt_bottom_border {
+#apddvwewzo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qkqgxyptbn .gt_col_headings {
+#apddvwewzo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1895,7 +1974,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#qkqgxyptbn .gt_col_heading {
+#apddvwewzo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1915,7 +1994,7 @@ gtsummary::tbl_regression(model )</code></pre>
   overflow-x: hidden;
 }
 
-#qkqgxyptbn .gt_column_spanner_outer {
+#apddvwewzo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1927,15 +2006,15 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 4px;
 }
 
-#qkqgxyptbn .gt_column_spanner_outer:first-child {
+#apddvwewzo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qkqgxyptbn .gt_column_spanner_outer:last-child {
+#apddvwewzo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qkqgxyptbn .gt_column_spanner {
+#apddvwewzo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1947,11 +2026,11 @@ gtsummary::tbl_regression(model )</code></pre>
   width: 100%;
 }
 
-#qkqgxyptbn .gt_spanner_row {
+#apddvwewzo .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qkqgxyptbn .gt_group_heading {
+#apddvwewzo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1977,7 +2056,7 @@ gtsummary::tbl_regression(model )</code></pre>
   text-align: left;
 }
 
-#qkqgxyptbn .gt_empty_group_heading {
+#apddvwewzo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1992,15 +2071,15 @@ gtsummary::tbl_regression(model )</code></pre>
   vertical-align: middle;
 }
 
-#qkqgxyptbn .gt_from_md > :first-child {
+#apddvwewzo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qkqgxyptbn .gt_from_md > :last-child {
+#apddvwewzo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qkqgxyptbn .gt_row {
+#apddvwewzo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2019,7 +2098,7 @@ gtsummary::tbl_regression(model )</code></pre>
   overflow-x: hidden;
 }
 
-#qkqgxyptbn .gt_stub {
+#apddvwewzo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2032,7 +2111,7 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 5px;
 }
 
-#qkqgxyptbn .gt_stub_row_group {
+#apddvwewzo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2046,15 +2125,15 @@ gtsummary::tbl_regression(model )</code></pre>
   vertical-align: top;
 }
 
-#qkqgxyptbn .gt_row_group_first td {
+#apddvwewzo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qkqgxyptbn .gt_row_group_first th {
+#apddvwewzo .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qkqgxyptbn .gt_summary_row {
+#apddvwewzo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2064,16 +2143,16 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 5px;
 }
 
-#qkqgxyptbn .gt_first_summary_row {
+#apddvwewzo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qkqgxyptbn .gt_first_summary_row.thick {
+#apddvwewzo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qkqgxyptbn .gt_last_summary_row {
+#apddvwewzo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2083,7 +2162,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#qkqgxyptbn .gt_grand_summary_row {
+#apddvwewzo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2093,7 +2172,7 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 5px;
 }
 
-#qkqgxyptbn .gt_first_grand_summary_row {
+#apddvwewzo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2103,7 +2182,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#qkqgxyptbn .gt_last_grand_summary_row_top {
+#apddvwewzo .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2113,11 +2192,11 @@ gtsummary::tbl_regression(model )</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#qkqgxyptbn .gt_striped {
+#apddvwewzo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qkqgxyptbn .gt_table_body {
+#apddvwewzo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2126,7 +2205,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#qkqgxyptbn .gt_footnotes {
+#apddvwewzo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2140,7 +2219,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#qkqgxyptbn .gt_footnote {
+#apddvwewzo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2149,7 +2228,7 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 5px;
 }
 
-#qkqgxyptbn .gt_sourcenotes {
+#apddvwewzo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2163,7 +2242,7 @@ gtsummary::tbl_regression(model )</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#qkqgxyptbn .gt_sourcenote {
+#apddvwewzo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2171,63 +2250,63 @@ gtsummary::tbl_regression(model )</code></pre>
   padding-right: 5px;
 }
 
-#qkqgxyptbn .gt_left {
+#apddvwewzo .gt_left {
   text-align: left;
 }
 
-#qkqgxyptbn .gt_center {
+#apddvwewzo .gt_center {
   text-align: center;
 }
 
-#qkqgxyptbn .gt_right {
+#apddvwewzo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qkqgxyptbn .gt_font_normal {
+#apddvwewzo .gt_font_normal {
   font-weight: normal;
 }
 
-#qkqgxyptbn .gt_font_bold {
+#apddvwewzo .gt_font_bold {
   font-weight: bold;
 }
 
-#qkqgxyptbn .gt_font_italic {
+#apddvwewzo .gt_font_italic {
   font-style: italic;
 }
 
-#qkqgxyptbn .gt_super {
+#apddvwewzo .gt_super {
   font-size: 65%;
 }
 
-#qkqgxyptbn .gt_footnote_marks {
+#apddvwewzo .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qkqgxyptbn .gt_asterisk {
+#apddvwewzo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qkqgxyptbn .gt_indent_1 {
+#apddvwewzo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qkqgxyptbn .gt_indent_2 {
+#apddvwewzo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qkqgxyptbn .gt_indent_3 {
+#apddvwewzo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qkqgxyptbn .gt_indent_4 {
+#apddvwewzo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qkqgxyptbn .gt_indent_5 {
+#apddvwewzo .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2339,47 +2418,49 @@ gtsummary::tbl_regression(model )</code></pre>
 </div>
 </div>
 <div id="key-takeaways" class="section level1">
-<h1>Key Takeaways:</h1>
+<h1>Key Takeaways</h1>
 <ul>
-<li><p>Statistical Significance: The p-value less than 0.05 indicates
-that the results are statistically significant. This suggests that there
-is a meaningful difference in the amount of money spent by customers who
-shop online versus those who shop in-store.</p></li>
-<li><p>Consumer Behavior Insights: The rejection of the null hypothesis
-(<span class="math inline">\(H_0: \mu_{store} \ge \mu_{web}\)</span>)
-implies that, on average, people who shop online spend more on groceries
-than those who shop in-store. This could reflect different shopping
-habits, availability of choices, or the influence of online marketing
-techniques.</p></li>
-<li><p>Impact of Covariates: The analysis controlled for other important
-covariates, which helps isolate the effect of the shopping medium
-(online vs. in-store) on spending. This implies that the observed effect
-is not just due to other factors but is specifically related to the mode
-of shopping.</p></li>
-<li><p>Methodological Rigor: The use of R code for calculating test
-statistics and simulating differences implies a rigorous, data-driven
-approach. This enhances the credibility of the findings.</p></li>
+<li><p><strong>Statistical Significance:</strong> The p-value less than
+0.05 indicates that the results are statistically significant. This
+suggests that there is a meaningful difference in the amount of money
+spent by customers who shop online versus those who shop
+in-store.</p></li>
+<li><p><strong>Consumer Behavior Insights:</strong> The rejection of the
+null hypothesis (<span class="math inline">\(H_0: \mu_{store} \ge
+\mu_{web}\)</span>) implies that, on average, people who shop online
+spend more on groceries than those who shop in-store. This could reflect
+different shopping habits, availability of choices, or the influence of
+online marketing techniques.</p></li>
+<li><p><strong>Impact of Covariates:</strong> The analysis controlled
+for other important covariates, which helps isolate the effect of the
+shopping medium (online vs. in-store) on spending. This implies that the
+observed effect is not just due to other factors but is specifically
+related to the mode of shopping.</p></li>
+<li><p><strong>Methodological Rigor:</strong> The use of R code for
+calculating test statistics and simulating differences implies a
+rigorous, data-driven approach. This enhances the credibility of the
+findings.</p></li>
 </ul>
 </div>
 <div id="potential-future-analysis" class="section level1">
-<h1>Potential Future Analysis:</h1>
+<h1>Potential Future Analysis</h1>
 <ul>
-<li><p>Deeper Demographic Analysis: Investigate how different
-demographic groups (age, income level, region, etc.) behave in terms of
-online versus in-store grocery shopping. This could reveal more nuanced
-patterns in consumer behavior.</p></li>
-<li><p>Longitudinal Study: Conduct a longitudinal study to observe
-changes over time. This could show whether the trend of spending more
-online is increasing, decreasing, or stable.</p></li>
-<li><p>Impact of Technology and User Experience: Analyze how website
-design, app usability, and other technological factors might influence
-online spending habits.</p></li>
-<li><p>Economic Impacts: Assess the broader economic implications of
-these shopping habits, such as the impact on local businesses versus
-large online retailers.</p></li>
-<li><p>Experimental Designs: Implement experimental designs, like A/B
-testing, to further explore causal relationships and test specific
-interventions.</p></li>
+<li><p><strong>Deeper Demographic Analysis:</strong> Investigate how
+different demographic groups (age, income level, region, etc.) behave in
+terms of online versus in-store grocery shopping. This could reveal more
+nuanced patterns in consumer behavior.</p></li>
+<li><p><strong>Longitudinal Study:</strong> Conduct a longitudinal study
+to observe changes over time. This could show whether the trend of
+spending more online is increasing, decreasing, or stable.</p></li>
+<li><p><strong>Impact of Technology and User Experience:</strong>
+Analyze how website design, app usability, and other technological
+factors might influence online spending habits.</p></li>
+<li><p><strong>Economic Impacts:</strong> Assess the broader economic
+implications of these shopping habits, such as the impact on local
+businesses versus large online retailers.</p></li>
+<li><p><strong>Experimental Designs:</strong> Implement experimental
+designs, like A/B testing, to further explore causal relationships and
+test specific interventions.</p></li>
 </ul>
 </div>
 <div id="weaknesses-and-next-step" class="section level1">
