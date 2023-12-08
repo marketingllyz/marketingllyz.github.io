@@ -94,7 +94,6 @@ d <- data %>%
 g1 <- ggplot(d, aes(Education  , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_viridis_d() +
   scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Education level",
@@ -109,7 +108,6 @@ d <- data %>%
 g2 <- ggplot(d, aes(Marital_Status , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_viridis_d() +
   scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Marital status",
@@ -125,7 +123,6 @@ d <- data %>%
 g3 <- ggplot(d, aes(factor(Kidhome) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_viridis_d() +
   scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Number of small children",
@@ -140,7 +137,6 @@ d <- data %>% group_by(Prefer_web_or_store,Teenhome ) %>%
 g4 <- ggplot(d, aes(factor(Teenhome) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_viridis_d() +
   scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Number of teenagers",
@@ -156,7 +152,6 @@ d <- data %>%
 g5 <- ggplot(d, aes(factor(Complain ) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_viridis_d() +
   scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Complain or not",
@@ -172,7 +167,6 @@ d <- data %>%
 g6 <- ggplot(d, aes(factor(Accept_camps ) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_viridis_d() +
   scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Accept number of campaigns",
