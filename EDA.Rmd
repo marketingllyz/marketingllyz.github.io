@@ -95,6 +95,7 @@ g1 <- ggplot(d, aes(Education  , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
   scale_fill_viridis_d() +
+  scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Education level",
        y = "Percentage",
@@ -109,6 +110,7 @@ g2 <- ggplot(d, aes(Marital_Status , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
   scale_fill_viridis_d() +
+  scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Marital status",
        y = "Percentage",
@@ -124,6 +126,7 @@ g3 <- ggplot(d, aes(factor(Kidhome) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
   scale_fill_viridis_d() +
+  scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Number of small children",
        y = "Percentage",
@@ -138,6 +141,7 @@ g4 <- ggplot(d, aes(factor(Teenhome) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
   scale_fill_viridis_d() +
+  scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Number of teenagers",
        y = "Percentage",
@@ -153,6 +157,7 @@ g5 <- ggplot(d, aes(factor(Complain ) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
   scale_fill_viridis_d() +
+  scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Complain or not",
        y = "Percentage",
@@ -168,6 +173,7 @@ g6 <- ggplot(d, aes(factor(Accept_camps ) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
   scale_fill_viridis_d() +
+  scale_fill_brewer(palette = "Pastel1") +
   theme_economist_white() +
   labs(x = "Accept number of campaigns",
        y = "Percentage",
@@ -189,11 +195,14 @@ plot_grid(g1,g2,g3,g4,g5,g6,nrow = 3)
 \newpage
 ```{r, fig.height=4.8, fig.width=6.8}
 g1 <- ggplot(data, aes(y=Total_amount)) +  
-  geom_boxplot(aes( Prefer_web_or_store, fill = Prefer_web_or_store), alpha=0.8) + 
-    labs(title="", 
-         x="Total amount",
-         fill="Prefer web or store") + theme_stata()
-plotly::ggplotly( g1)
+  geom_boxplot(aes(Prefer_web_or_store, fill = Prefer_web_or_store), alpha=0.8) + 
+  scale_fill_brewer(palette = "Pastel1") + 
+  labs(title="", 
+       x="Total amount",
+       fill="Prefer web or store") + 
+  theme_stata()
+
+plotly::ggplotly(g1)
 ```
 
 ### Figure 3 shows distributions of continous covariates variables with prefer web or store
@@ -202,21 +211,35 @@ plotly::ggplotly( g1)
   Age, yearly income, web visits monthly, recency
 
 ```{r, fig.height=6.8, fig.width=7.8}
-g2 <- ggplot(data, aes(Income)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-    labs(title="", 
-         x="Yearly Income",
-         fill="Prefer web or store")+ theme_economist()
-g3 <- ggplot(data, aes(Recency)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-    labs(title="", 
-         x="Recency",
-         fill="Prefer web or store")+theme_economist()
-g4 <- ggplot(data, aes(WebVisits)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-    labs(title="", 
-         x="Web visits monthly",
-         fill="Prefer web or store")+theme_economist()
-g5 <- ggplot(data, aes(Age)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-    labs(title="", 
-         x="Age",
-         fill="Prefer web or store")+theme_economist()
-plot_grid(g5,g2,g4,g3,nrow = 2)
+library(ggplot2)
+library(plotly)
+library(cowplot) 
+
+g2 <- ggplot(data, aes(Income)) + 
+  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(title="", x="Yearly Income", fill="Prefer web or store") + 
+  theme_economist()
+
+g3 <- ggplot(data, aes(Recency)) + 
+  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+  scale_fill_brewer(palette = "Pastel1") + 
+  labs(title="", x="Recency", fill="Prefer web or store") + 
+  theme_economist()
+
+g4 <- ggplot(data, aes(WebVisits)) + 
+  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+  scale_fill_brewer(palette = "Pastel1") + 
+  labs(title="", x="Web visits monthly", fill="Prefer web or store") + 
+  theme_economist()
+
+g5 <- ggplot(data, aes(Age)) + 
+  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+  scale_fill_brewer(palette = "Pastel1") + 
+  labs(title="", x="Age", fill="Prefer web or store") + 
+  theme_economist()
+
+# Combining the plots into a grid
+plot_grid(g5, g2, g4, g3, nrow = 2)
+
 ```
