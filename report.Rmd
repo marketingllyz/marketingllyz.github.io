@@ -296,6 +296,9 @@ gtsummary::tbl_regression(model )
 ```
 
 
+## Weaknesses and Next Step
+
+* The work might have some drawbacks as follows. Firstly, in this research we categorize customers who purchase online more than in stores as purchasing as purchasing online, but that doesn't mean they don't shop in stores. This could be a confounding variable hat influences the true relationship between the amount spend on grocery and customers' purchasing choices.
 
 
 
