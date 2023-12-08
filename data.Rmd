@@ -16,7 +16,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-
 ## Data Information
 
 - The dataset used in this research is obtained from kaggle and updated in 2021.The dataset for our research project is a comprehensive collection of consumer behavior and demographic data encapsulating various aspects of online and in-store shopping habits, specifically focusing on grocery expenditures. It consists of 2240 observations, each representing an individual customer, and 29 variables capturing a wide range of information.
@@ -32,7 +31,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### The Final dataset contains the following 12 variables:
 
-#### People
+#### Demographics
 
 - `Age`: Customer data minus date of birth
 - `Education`: Customer's education level
@@ -44,16 +43,16 @@ knitr::opts_chunk$set(echo = TRUE)
 - `Complain`: 1 if the customer complained in the last 2 years, 0 otherwise
 
 
-#### Products
+#### Consumptions
 
 - `Total_amount`: Sum of the amount of products the customer purchased, included wines, fruits, meat, fish, sweet and gold.
 
 
-#### Promotion
+#### Marketing Response
 
 - `Accept_Camps`: if customer accepted the offer in the 1st campaign, 0 otherwise
 
-#### Place
+#### Shopping Preference
 
 - `Prefer_web_or_store`: Customer prefer web or in-store shopping
 - `WebVisits`: Number of visits to company’s website in the last month
