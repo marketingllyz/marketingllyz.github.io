@@ -76,19 +76,6 @@ data  %>%
   These segments and factors include: 
   Educational level, marital status, household composition, costumer feedback behavior, marketing campaign receptiveness
 
-* Figure 2 shows distributions of response variable total amount with prefer web or store
-
-  The image shows a box plot with two categories: 
-  one for customers who prefer shopping in stores (red) and another for those who prefer shopping online (blue). 
-  A box plot displays the range of spending, the median (middle value), and any outliers (unusually high or low values).
-
-  In this plot, the median spending for in-store shoppers is lower, suggesting they generally spend less, but there are a few who spend a lot more, shown by the dots above the main box. 
-  For online shoppers, the median spending is higher and more in the middle of the range, indicating a more balanced spending pattern, without any outliers. This suggests that people who shop online tend to spend more evenly, while those who shop in stores have a wider range of spending habits.
-
-* Figure 3 shows distributions of continous covariates variables with prefer web or store
-
-  The image shows four kernel density plots comparing the preferences for shopping in-store (shown in red) versus online (shown in blue) across different customer characteristics:
-  Age, yearly income, web visits monthly, recency
 
 ```{r, fig.height=9.8, fig.width=9.8}
 library(ggplot2)
@@ -164,6 +151,15 @@ library(cowplot)
 plot_grid(g1,g2,g3,g4,g5,g6,nrow = 3)
 ```
 
+* Figure 2 shows distributions of response variable total amount with prefer web or store
+
+  The image shows a box plot with two categories: 
+  one for customers who prefer shopping in stores (red) and another for those who prefer shopping online (blue). 
+  A box plot displays the range of spending, the median (middle value), and any outliers (unusually high or low values).
+
+  In this plot, the median spending for in-store shoppers is lower, suggesting they generally spend less, but there are a few who spend a lot more, shown by the dots above the main box. 
+  For online shoppers, the median spending is higher and more in the middle of the range, indicating a more balanced spending pattern, without any outliers. This suggests that people who shop online tend to spend more evenly, while those who shop in stores have a wider range of spending habits.
+
 \newpage
 ```{r, fig.height=4.8, fig.width=6.8}
 g1 <- ggplot(data, aes(y=Total_amount)) +  geom_boxplot(aes( Prefer_web_or_store, fill = Prefer_web_or_store), alpha=0.8) + 
@@ -172,6 +168,11 @@ g1 <- ggplot(data, aes(y=Total_amount)) +  geom_boxplot(aes( Prefer_web_or_store
          fill="Prefer web or store") + theme_stata()
 plotly::ggplotly( g1)
 ```
+
+* Figure 3 shows distributions of continous covariates variables with prefer web or store
+
+  The image shows four kernel density plots comparing the preferences for shopping in-store (shown in red) versus online (shown in blue) across different customer characteristics:
+  Age, yearly income, web visits monthly, recency
 
 ```{r, fig.height=6.8, fig.width=7.8}
 g2 <- ggplot(data, aes(Income)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
