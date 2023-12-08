@@ -39,7 +39,7 @@ data = read_csv("marketing_campaign.csv")
 
 # Data manipulation
 data = data %>%
-  select(-ID, -Z_CostContact, -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases) %>%
+  dplyr::select(-ID, -Z_CostContact, -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases) %>%
   mutate(
     Total_amount = MntWines + MntFruits + MntMeatProducts + MntFishProducts + MntSweetProducts + MntGoldProds,
     Prefer_web_or_store = ifelse(NumStorePurchases > NumWebPurchases, "store", "web"),
@@ -47,7 +47,7 @@ data = data %>%
     Age = as.numeric(substr(Dt_Customer, 7, 10)) - Year_Birth
   ) %>%
   rename(WebVisits = NumWebVisitsMonth) %>%
-  select(-MntWines, -MntFruits, -MntMeatProducts, -MntFishProducts, -MntSweetProducts, -MntGoldProds,-AcceptedCmp1, -AcceptedCmp2, -AcceptedCmp3, -AcceptedCmp4, -AcceptedCmp5, -Response, -Year_Birth, -Dt_Customer, -NumWebPurchases, -NumStorePurchases) %>%
+  dplyr::select(-MntWines, -MntFruits, -MntMeatProducts, -MntFishProducts, -MntSweetProducts, -MntGoldProds,-AcceptedCmp1, -AcceptedCmp2, -AcceptedCmp3, -AcceptedCmp4, -AcceptedCmp5, -Response, -Year_Birth, -Dt_Customer, -NumWebPurchases, -NumStorePurchases) %>%
   drop_na()
 
 # Adjust Marital Status
