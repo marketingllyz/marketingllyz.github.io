@@ -17,7 +17,7 @@ This research is interesting because we will arrive at a statistical model which
 
 Customer behavior analysis helps a business to modify its product based on its target customers from different types of customer segments. For example, instead of spending money to market a new product to every customer in the company’s database, a company can analyze which customer segment is most likely to buy the product and then market the product only on that particular segment. For example, if our hypothesis is accurate then merchant should invest more in online advertisements and in upgrading and maintaining their websites to get customers to purchase. If the prediction is contradict with our hypothesis which indicates customer spend more when they purchase in store then merchants should invest more in store management and maintenance in order to attract customers into the store to purchase.
 
-### Video 
+### Website Overview 
 
 
   
