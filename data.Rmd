@@ -5,7 +5,7 @@ output:
   html_document:
     toc: true
     toc_float: true
-    code_folding: "hide"
+    
 ---
 
 
@@ -13,31 +13,55 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-# Data Description
-
-- The dataset used in this research is obtained from kaggle and updated in 2021. The dataset is about customer personality analysis, which records customers’ personalities, purchasing behaviors, and specific needs of different types of customers. There are 2240 observations in total before we do any data cleaning processes.
 
 
 
-# Data cleaning
 
-* Add amount of wines, fruits, meat ... into total amount spend
+## Data Information
 
-* Create a prefer web or store option: number of web > store, prefer "web", vice versa
+- The dataset used in this research is obtained from kaggle and updated in 2021.The dataset for our research project is a comprehensive collection of consumer behavior and demographic data encapsulating various aspects of online and in-store shopping habits, specifically focusing on grocery expenditures. It consists of 2240 observations, each representing an individual customer, and 29 variables capturing a wide range of information.
 
-* Add total of accepted compaigns
+## Data Processing
 
-* `Age`: be customer date minus year birth
+- The dataset 2240 customer records, was imported into R using the `read_csv()` function. Superfluous columns such as `ID`, `Z_CostContact`, `Z_Revenue`, `NumCatalogPurchases`, and `NumDealsPurchases` were removed to hone in on variables pertinent to our analysis.
 
-* `Marital_Status` in  ("Absurd", "Alone","YOLO","Widow") merged into "Other"
+- During the cleaning phase, new variables were created: `Total_amount` to capture total spending, `Prefer_web_or_store` to indicate purchasing preference, `Accept_camps` to tally accepted marketing campaigns, and `Age` to reflect customer age at first purchase. The variable `NumWebVisitsMonth` was renamed to `WebVisits` for better interpretability.
 
-* Remove missing values in `Income`
+- Following the removal of rows with missing values, the `Marital_Status` variable was streamlined by grouping uncommon statuses into an 'Other' category, simplifying the analysis. The final dataset is devoid of redundant information and is augmented with variables that provide a holistic view of customer behavior.
 
-* Final data has variables  `Education``Marital_Status` `Income`   `Kidhome` `Teenhome`  `Recency`  `WebVisits`   `Complain`      `Total_amount`   `Prefer_web_or_store` `Accept_camps`  `Age`, other variables omitted
 
-* Final data has 2216 observations with 12 variables
+### The Final dataset contains the following 12 variables:
 
-```{r}
+#### People
+
+- `Age`: Customer data minus date of birth
+- `Education`: Customer's education level
+- `Marital_Status`: Customer's marital status
+- `Income`: Customer's yearly household income
+- `Kidhome`: Number of children in customer's household
+- `Teenhome`: Number of teenagers in customer's household
+- `Recency`: Number of days since customer's last purchase
+- `Complain`: 1 if the customer complained in the last 2 years, 0 otherwise
+
+
+#### Products
+
+- `Total_amount`: Sum of the amount of products the customer purchased, included wines, fruits, meat, fish, sweet and gold.
+
+
+#### Promotion
+
+- `Accept_Camps`: if customer accepted the offer in the 1st campaign, 0 otherwise
+
+#### Place
+
+- `Prefer_web_or_store`: Customer prefer web or in-store shopping
+- `WebVisits`: Number of visits to company’s website in the last month
+
+
+
+
+```{r message=FALSE}
 # Load libraries
 library(readr)
 library(tidyverse)

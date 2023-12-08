@@ -33,7 +33,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -222,9 +221,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -367,14 +363,6 @@ div.tocify {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
-</ul>
-</div>
-
 
 
 <h1 class="title toc-ignore">Data Description</h1>
@@ -382,59 +370,91 @@ div.tocify {
 </div>
 
 
-<div id="data-description" class="section level1">
-<h1>Data Description</h1>
+<div id="data-information" class="section level2">
+<h2>Data Information</h2>
 <ul>
 <li>The dataset used in this research is obtained from kaggle and
-updated in 2021. The dataset is about customer personality analysis,
-which records customers’ personalities, purchasing behaviors, and
-specific needs of different types of customers. There are 2240
-observations in total before we do any data cleaning processes.</li>
+updated in 2021.The dataset for our research project is a comprehensive
+collection of consumer behavior and demographic data encapsulating
+various aspects of online and in-store shopping habits, specifically
+focusing on grocery expenditures. It consists of 2240 observations, each
+representing an individual customer, and 29 variables capturing a wide
+range of information.</li>
 </ul>
 </div>
-<div id="data-cleaning" class="section level1">
-<h1>Data cleaning</h1>
+<div id="data-processing" class="section level2">
+<h2>Data Processing</h2>
 <ul>
-<li><p>Add amount of wines, fruits, meat … into total amount
-spend</p></li>
-<li><p>Create a prefer web or store option: number of web &gt; store,
-prefer “web”, vice versa</p></li>
-<li><p>Add total of accepted compaigns</p></li>
-<li><p><code>Age</code>: be customer date minus year birth</p></li>
-<li><p><code>Marital_Status</code> in (“Absurd”, “Alone”,“YOLO”,“Widow”)
-merged into “Other”</p></li>
-<li><p>Remove missing values in <code>Income</code></p></li>
-<li><p>Final data has variables <code>Education``Marital_Status</code>
-<code>Income</code> <code>Kidhome</code> <code>Teenhome</code>
-<code>Recency</code> <code>WebVisits</code> <code>Complain</code>
-<code>Total_amount</code> <code>Prefer_web_or_store</code>
-<code>Accept_camps</code> <code>Age</code>, other variables
-omitted</p></li>
-<li><p>Final data has 2216 observations with 12 variables</p></li>
+<li><p>The dataset 2240 customer records, was imported into R using the
+<code>read_csv()</code> function. Superfluous columns such as
+<code>ID</code>, <code>Z_CostContact</code>, <code>Z_Revenue</code>,
+<code>NumCatalogPurchases</code>, and <code>NumDealsPurchases</code>
+were removed to hone in on variables pertinent to our analysis.</p></li>
+<li><p>During the cleaning phase, new variables were created:
+<code>Total_amount</code> to capture total spending,
+<code>Prefer_web_or_store</code> to indicate purchasing preference,
+<code>Accept_camps</code> to tally accepted marketing campaigns, and
+<code>Age</code> to reflect customer age at first purchase. The variable
+<code>NumWebVisitsMonth</code> was renamed to <code>WebVisits</code> for
+better interpretability.</p></li>
+<li><p>Following the removal of rows with missing values, the
+<code>Marital_Status</code> variable was streamlined by grouping
+uncommon statuses into an ‘Other’ category, simplifying the analysis.
+The final dataset is devoid of redundant information and is augmented
+with variables that provide a holistic view of customer
+behavior.</p></li>
+</ul>
+<div id="the-final-dataset-contains-the-following-12-variables"
+class="section level3">
+<h3>The Final dataset contains the following 12 variables:</h3>
+<div id="people" class="section level4">
+<h4>People</h4>
+<ul>
+<li><code>Age</code>: Customer data minus date of birth</li>
+<li><code>Education</code>: Customer’s education level</li>
+<li><code>Marital_Status</code>: Customer’s marital status</li>
+<li><code>Income</code>: Customer’s yearly household income</li>
+<li><code>Kidhome</code>: Number of children in customer’s
+household</li>
+<li><code>Teenhome</code>: Number of teenagers in customer’s
+household</li>
+<li><code>Recency</code>: Number of days since customer’s last
+purchase</li>
+<li><code>Complain</code>: 1 if the customer complained in the last 2
+years, 0 otherwise</li>
+</ul>
+</div>
+<div id="products" class="section level4">
+<h4>Products</h4>
+<ul>
+<li><code>Total_amount</code>: Sum of the amount of products the
+customer purchased, included wines, fruits, meat, fish, sweet and
+gold.</li>
+</ul>
+</div>
+<div id="promotion" class="section level4">
+<h4>Promotion</h4>
+<ul>
+<li><code>Accept_Camps</code>: if customer accepted the offer in the 1st
+campaign, 0 otherwise</li>
+</ul>
+</div>
+<div id="place" class="section level4">
+<h4>Place</h4>
+<ul>
+<li><code>Prefer_web_or_store</code>: Customer prefer web or in-store
+shopping</li>
+<li><code>WebVisits</code>: Number of visits to company’s website in the
+last month</li>
 </ul>
 <pre class="r"><code># Load libraries
 library(readr)
-library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.3     ✔ purrr     1.0.2
-## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<pre class="r"><code># Read in data
-data = read_csv(&quot;marketing_campaign.csv&quot;)</code></pre>
-<pre><code>## Rows: 2240 Columns: 29
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (3): Education, Marital_Status, Dt_Customer
-## dbl (26): ID, Year_Birth, Income, Kidhome, Teenhome, Recency, MntWines, MntF...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code># Data manipulation
+library(tidyverse)
+
+# Read in data
+data = read_csv(&quot;marketing_campaign.csv&quot;)
+
+# Data manipulation
 data = data %&gt;%
   select(-ID, -Z_CostContact, -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases) %&gt;%
   mutate(
@@ -449,6 +469,8 @@ data = data %&gt;%
 
 # Adjust Marital Status
 data$Marital_Status[data$Marital_Status %in% c(&quot;Absurd&quot;, &quot;Alone&quot;, &quot;YOLO&quot;, &quot;Widow&quot;)] = &quot;Other&quot;</code></pre>
+</div>
+</div>
 </div>
 
 
@@ -486,11 +508,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
-});
-</script>
 
 <script>
 $(document).ready(function ()  {
