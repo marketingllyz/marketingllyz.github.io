@@ -105,7 +105,7 @@ data  %>%
 
 ## Graphical summary 
 
-### Figure 1 shows distributions of categorical covariates variables with prefer web or store
+### *Figure 1* shows distributions of categorical covariates variables with prefer web or store
 
 - The set of bar graphs present a comparative analysis of consumer preferences between in-store (depicted in pink) and web-based shopping (depicted in blue) across various demographic segments and behavioral factors. 
   These segments and factors include: 
@@ -114,7 +114,7 @@ data  %>%
 
 <iframe height="480" width="100%" frameborder="no" src="https://marketingllyz.shinyapps.io/shiny/"> </iframe>
 
-### Figure 2 shows distributions of response variable total amount with prefer web or store
+### *Figure 2* shows distributions of response variable total amount with prefer web or store
 
 - **The image shows a box plot with two categories:**
   one for customers who prefer shopping in stores (pink) and another for those who prefer shopping online (blue). 
@@ -137,7 +137,7 @@ g1 <- ggplot(data, aes(y=Total_amount)) +
 plotly::ggplotly(g1)
 ```
 
-### Figure 3 shows distributions of continous covariates variables with prefer web or store
+### *Figure 3* shows distributions of continous covariates variables with prefer web or store
 
 - The image shows four kernel density plots comparing the preferences for shopping in-store (shown in pink) versus online (shown in blue) across different customer characteristics:
 **Age, yearly income, web visits monthly, recency**
