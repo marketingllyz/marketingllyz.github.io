@@ -19,7 +19,8 @@ library(tidyverse)
 
 data <- read_csv("marketing_campaign.csv")
 
-data <- data %>%  select(-ID, -Z_CostContact,  -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases)
+data <- data %>%  
+  select(-ID, -Z_CostContact,  -Z_Revenue, -NumCatalogPurchases, -NumDealsPurchases)
 
 data <- data %>%
   mutate(Total_amount = MntWines +  MntFruits +  MntMeatProducts +   MntFishProducts +
@@ -28,10 +29,12 @@ data <- data %>%
          Accept_camps  =  AcceptedCmp1 +  AcceptedCmp2 +  AcceptedCmp3 +  AcceptedCmp4 +
            AcceptedCmp5 + Response,
          Age  = as.numeric(substr(Dt_Customer,7,10)) - Year_Birth,
-         ) %>% rename("WebVisits" = "NumWebVisitsMonth")
+         ) %>% 
+  rename("WebVisits" = "NumWebVisitsMonth")
   
 
-data <- data %>% select(-MntWines, -MntFruits, -MntMeatProducts, 
+data <- data %>% 
+  select(-MntWines, -MntFruits, -MntMeatProducts, 
                         -MntFishProducts, -MntSweetProducts, -MntGoldProds,
                         -AcceptedCmp1,-AcceptedCmp2,-AcceptedCmp3,
                         -AcceptedCmp4,-AcceptedCmp5 ,-Response,
@@ -70,7 +73,7 @@ data  %>%
 
 ## Graphical summary 
 
-* Figure 1 shows distributions of categorical covariates variables with prefer web or store
+### Figure 1 shows distributions of categorical covariates variables with prefer web or store
 
   The set of bar graphs present a comparative analysis of consumer preferences between in-store (depicted in purple) and web-based shopping (depicted in yellow) across various demographic segments and behavioral factors. 
   These segments and factors include: 
@@ -81,15 +84,17 @@ data  %>%
 library(ggplot2)
 library(ggthemes)
 library(scales)
+
 d <- data %>% 
   group_by(Prefer_web_or_store,Education ) %>% 
   count() %>%
   group_by(Education  ) %>% 
-  mutate(pct= n/sum(n))
-g1 <- ggplot(d, aes(Education  , pct, fill = Prefer_web_or_store)) +
+  mutate(pct = n/sum(n))
+
+g1 <- ggplot(d, aes(Education  , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Set2") +
+  scale_fill_viridis_d() +
   theme_economist_white() +
   labs(x = "Education level",
        y = "Percentage",
@@ -99,11 +104,11 @@ d <- data %>%
   group_by(Prefer_web_or_store,Marital_Status ) %>% 
   count() %>%
   group_by(Marital_Status) %>% 
-  mutate(pct= n/sum(n))
+  mutate(pct = n/sum(n))
 g2 <- ggplot(d, aes(Marital_Status , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Set2") +
+  scale_fill_viridis_d() +
   theme_economist_white() +
   labs(x = "Marital status",
        y = "Percentage",
@@ -113,25 +118,26 @@ d <- data %>%
   group_by(Prefer_web_or_store,Kidhome ) %>% 
   count() %>%
   group_by(Kidhome) %>% 
-  mutate(pct= n/sum(n))
+  mutate(pct = n/sum(n))
+
 g3 <- ggplot(d, aes(factor(Kidhome) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Set2") +
+  scale_fill_viridis_d() +
   theme_economist_white() +
   labs(x = "Number of small children",
        y = "Percentage",
        fill = "Prefer web or store")
 
-d <- data %>% 
-  group_by(Prefer_web_or_store,Teenhome ) %>% 
+d <- data %>% group_by(Prefer_web_or_store,Teenhome ) %>% 
   count() %>%
   group_by(Teenhome) %>% 
-  mutate(pct= n/sum(n))
+  mutate(pct = n/sum(n))
+
 g4 <- ggplot(d, aes(factor(Teenhome) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Set2") +
+  scale_fill_viridis_d() +
   theme_economist_white() +
   labs(x = "Number of teenagers",
        y = "Percentage",
@@ -142,10 +148,11 @@ d <- data %>%
   count() %>%
   group_by(Complain ) %>% 
   mutate(pct= n/sum(n))
+
 g5 <- ggplot(d, aes(factor(Complain ) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Set2") +
+  scale_fill_viridis_d() +
   theme_economist_white() +
   labs(x = "Complain or not",
        y = "Percentage",
@@ -156,10 +163,11 @@ d <- data %>%
   count() %>%
   group_by(Accept_camps ) %>% 
   mutate(pct= n/sum(n))
+
 g6 <- ggplot(d, aes(factor(Accept_camps ) , pct, fill =  Prefer_web_or_store)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = scales::label_percent()) +
-  scale_fill_brewer(palette = "Set2") +
+  scale_fill_viridis_d() +
   theme_economist_white() +
   labs(x = "Accept number of campaigns",
        y = "Percentage",
@@ -169,7 +177,7 @@ library(cowplot)
 plot_grid(g1,g2,g3,g4,g5,g6,nrow = 3)
 ```
 
-* Figure 2 shows distributions of response variable total amount with prefer web or store
+### Figure 2 shows distributions of response variable total amount with prefer web or store
 
   The image shows a box plot with two categories: 
   one for customers who prefer shopping in stores (red) and another for those who prefer shopping online (blue). 
@@ -180,49 +188,35 @@ plot_grid(g1,g2,g3,g4,g5,g6,nrow = 3)
 
 \newpage
 ```{r, fig.height=4.8, fig.width=6.8}
-g1 <- ggplot(data, aes(y=Total_amount)) + 
-  geom_boxplot(aes( Prefer_web_or_store, fill = Prefer_web_or_store), alpha=0.8) +
-  labs(title="", 
+g1 <- ggplot(data, aes(y=Total_amount)) +  
+  geom_boxplot(aes( Prefer_web_or_store, fill = Prefer_web_or_store), alpha=0.8) + 
+    labs(title="", 
          x="Total amount",
-         fill="Prefer web or store") + 
-  scale_fill_brewer(palette = "Set2")
-  theme_stata()
+         fill="Prefer web or store") + theme_stata()
 plotly::ggplotly( g1)
 ```
 
-* Figure 3 shows distributions of continous covariates variables with prefer web or store
+### Figure 3 shows distributions of continous covariates variables with prefer web or store
 
   The image shows four kernel density plots comparing the preferences for shopping in-store (shown in red) versus online (shown in blue) across different customer characteristics:
   Age, yearly income, web visits monthly, recency
 
 ```{r, fig.height=6.8, fig.width=7.8}
-g2 <- ggplot(data, aes(Income)) + 
-  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-  labs(title="", 
+g2 <- ggplot(data, aes(Income)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+    labs(title="", 
          x="Yearly Income",
-         fill="Prefer web or store") + 
-  scale_fill_brewer(palette = "Set2") +
-  theme_economist()
-g3 <- ggplot(data, aes(Recency)) +
-  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-  labs(title="", 
+         fill="Prefer web or store")+ theme_economist()
+g3 <- ggplot(data, aes(Recency)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+    labs(title="", 
          x="Recency",
-         fill="Prefer web or store") +
-  scale_fill_brewer(palette = "Set2") +
-  theme_economist()
-g4 <- ggplot(data, aes(WebVisits)) +
-  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-  labs(title="", 
+         fill="Prefer web or store")+theme_economist()
+g4 <- ggplot(data, aes(WebVisits)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+    labs(title="", 
          x="Web visits monthly",
-         fill="Prefer web or store") +
-  scale_fill_brewer(palette = "Set2") +
-  theme_economist()
-g5 <- ggplot(data, aes(Age)) +
-  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
-  labs(title="", 
+         fill="Prefer web or store")+theme_economist()
+g5 <- ggplot(data, aes(Age)) +  geom_density(aes(fill= Prefer_web_or_store), alpha=0.8) + 
+    labs(title="", 
          x="Age",
-         fill="Prefer web or store") +
-  scale_fill_brewer(palette = "Set2") +
-  theme_economist()
+         fill="Prefer web or store")+theme_economist()
 plot_grid(g5,g2,g4,g3,nrow = 2)
 ```
