@@ -13,6 +13,11 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+# Data Description
+
+- The dataset used in this research is obtained from kaggle and updated in 2021. The dataset is about customer personality analysis, which records customers’ personalities, purchasing behaviors, and specific needs of different types of customers. There are 2240 observations in total before we do any data cleaning processes.
+
+
 
 # Data cleaning
 
